@@ -3,6 +3,7 @@
     v-model="inputValue"
     :placeholder="placeholder"
     :error="error"
+    :autocomplete="autocomplete"
   >
     <template #prefix>
       <BaseIcon :icon="iconType" />
@@ -12,8 +13,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import BaseInput from '../../../../shared/ui/BaseInput/BaseInput.vue'
-import BaseIcon from '../../../../shared/ui/BaseIcon/BaseIcon.vue'
+import BaseInput from '@/shared/ui/BaseInput/BaseInput.vue'
+import BaseIcon from '@/shared/ui/BaseIcon/BaseIcon.vue'
 
 export default Vue.extend({
   name: 'LoginInput',
@@ -29,6 +30,10 @@ export default Vue.extend({
     placeholder: {
       type: String,
       default: 'Логин или Телефон'
+    },
+    autocomplete: {
+      type: String,
+      default: 'username'
     }
   },
   computed: {

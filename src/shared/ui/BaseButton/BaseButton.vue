@@ -35,6 +35,7 @@ export default defineComponent({
       { 'circle': circle }
     ]"
     :disabled="disabled"
+    @click="$emit('click')"
   >
     <slot></slot>
   </button>

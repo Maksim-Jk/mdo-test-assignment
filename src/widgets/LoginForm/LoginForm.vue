@@ -1,37 +1,56 @@
 <template>
     <div class="login">
       <h2 class="login__title">Авторизация</h2>
-      <form class="login__form">
-        <LoginInput v-model="login" />
-        <BaseInput v-model="password" placeholder="Пароль">
-          <template #prefix>
-            <BaseIcon icon="lock" />
-          </template>
-        </BaseInput>
-        <BaseButton size="medium">Войти</BaseButton>
+      <form class="login__form" @submit.prevent="handleSubmit">
+        <LoginInput v-model="username" :disabled="isLoading" autocomplete="username" />
+        <PasswordInput v-model="password" :disabled="isLoading" autocomplete="current-password" />
+        <div v-if="error" class="login__error">{{ error }}</div>
+        <BaseButton
+            size="medium"
+            type="submit"
+            :loading="isLoading"
+        >
+            Войти
+        </BaseButton>
     </form>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapActions, mapGetters } from 'vuex'
 import LoginInput from '@/features/login/ui/LoginInput/LoginInput.vue'
-import BaseInput from '@/shared/ui/BaseInput/BaseInput.vue'
+import PasswordInput from '@/features/password/ui/PasswordInput/PasswordInput.vue'
 import BaseButton from '@/shared/ui/BaseButton/BaseButton.vue'
-import BaseIcon from '@/shared/ui/BaseIcon/BaseIcon.vue'
 
 export default Vue.extend({
   name: 'LoginForm',
   components: {
     LoginInput,
-    BaseInput,
-    BaseButton,
-    BaseIcon
+    PasswordInput,
+    BaseButton
   },
   data () {
     return {
-      login: '',
+      username: '',
       password: ''
+    }
+  },
+  computed: {
+    ...mapGetters('auth', ['isLoading', 'error'])
+  },
+  methods: {
+    ...mapActions('auth', ['login']),
+    async handleSubmit () {
+      try {
+        await this.login({
+          username: this.username.startsWith('+') ? this.username.slice(1) : this.username,
+          password: this.password
+        })
+        this.$router.push({ name: 'requests-list' })
+      } catch (error) {
+        console.error('Ошибка авторизации:', error)
+      }
     }
   }
 })
@@ -65,5 +84,11 @@ export default Vue.extend({
     flex-direction: column;
     align-items: center;
     gap: 24px;
+}
+
+.login__error {
+    color: red;
+    font-size: 14px;
+    text-align: center;
 }
 </style>

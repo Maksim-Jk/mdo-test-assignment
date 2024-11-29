@@ -12,9 +12,6 @@ export default Vue.extend({
   name: 'LoginPage',
   components: {
     LoginForm
-  },
-  created () {
-    console.log('created')
   }
 })
 </script>

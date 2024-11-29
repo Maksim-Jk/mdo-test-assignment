@@ -2,6 +2,7 @@
   <div class="app-layout">
     <header class="app-header">
       <h1 class="app-title">{{ title }}</h1>
+      <LogoutButton />
     </header>
     <main class="app-content">
       <router-view></router-view>
@@ -11,9 +12,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import LogoutButton from '@/features/LogoutButton/LogoutButton.vue'
 
 export default Vue.extend({
   name: 'AppLayout',
+  components: {
+    LogoutButton
+  },
   computed: {
     title () {
       return this.$route.meta?.title || ''
@@ -34,6 +39,9 @@ export default Vue.extend({
   border-bottom: 1px solid $color-border;
   padding: 1rem 2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .app-title {

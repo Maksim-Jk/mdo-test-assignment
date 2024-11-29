@@ -14,8 +14,11 @@ Vue.use(SvgIcon, {
 
 Vue.config.productionTip = false
 
-new Vue({
-  store,
-  router,
-  render: h => h(App)
-}).$mount('#app')
+// Инициализируем store перед созданием Vue instance
+store.dispatch('auth/init').then(() => {
+  new Vue({
+    store,
+    router,
+    render: h => h(App)
+  }).$mount('#app')
+})
