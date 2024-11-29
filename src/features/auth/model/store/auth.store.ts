@@ -1,12 +1,12 @@
 import router, { ROUTE_NAMES } from '@/app/router'
-import { User } from '@/entities/user/model/types'
+import { UserDto } from '@/shared/api/auth/types'
 import { AuthService } from '@/shared/api/auth/auth.service'
 import { ActionContext } from 'vuex'
 
 type RootState = Record<string, never>
 
 interface AuthState {
-    user: User | null;
+    user: UserDto | null;
     isAuthenticated: boolean;
     isLoading: boolean;
     error: string | null;
@@ -21,7 +21,7 @@ export const authStore = {
     error: null
   }),
   mutations: {
-    setUser (state: AuthState, user: User | null) {
+    setUser (state: AuthState, user: UserDto | null) {
       state.user = user
       state.isAuthenticated = !!user
     },

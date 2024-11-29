@@ -1,4 +1,4 @@
-import type { User } from '@/entities/user/model/types'
+import type { UserDto } from '@/shared/api/auth/types'
 import { BaseApiService } from '../base-api.service'
 
 export class AuthService extends BaseApiService {
@@ -11,8 +11,8 @@ export class AuthService extends BaseApiService {
       return AuthService.instance
     }
 
-    public async login (username: string, password: string): Promise<User> {
-      const response = await this.api.post<User>('/auth/login/', {
+    public async login (username: string, password: string): Promise<UserDto> {
+      const response = await this.api.post<UserDto>('/auth/login/', {
         username,
         password
       })
