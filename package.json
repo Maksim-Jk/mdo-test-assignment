@@ -8,12 +8,15 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate-icons": "vsvg -s ./src/shared/ui/BaseIcon/icons -t ./src/shared/ui/BaseIcon/compiled-icons"
   },
   "main": "index.js",
   "dependencies": {
-    "core-js": "^3.8.3",
+    "@types/vue-router": "^2.0.0",
     "vue": "^2.6.14",
+    "vue-router": "^3.6.5",
+    "vue-svgicon": "^3.3.2",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
@@ -35,8 +38,14 @@
     "eslint-plugin-vue": "^8.0.3",
     "sass": "^1.81.0",
     "sass-loader": "^10.5.2",
+    "style-resources-loader": "^1.5.0",
     "typescript": "~4.5.5",
-    "vue-template-compiler": "^2.6.14"
+    "vue-cli-plugin-style-resources-loader": "^0.1.5",
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^5.89.0",
+    "progress-webpack-plugin": "^1.0.16",
+    "core-js": "^3.35.0",
+    "webpack-dev-server": "^4.15.1"
   },
   "eslintConfig": {
     "root": true,
