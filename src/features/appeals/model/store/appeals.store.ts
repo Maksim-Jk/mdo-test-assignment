@@ -29,13 +29,16 @@ export const appealsStore = {
     }
   },
   actions: {
-    async fetchAppeals ({ commit }: ActionContext<AppealsState, RootState>) {
+    async fetchAppeals ({ commit }: ActionContext<AppealsState, RootState>, { page = 1 } = {}) {
       try {
         commit('setLoading', true)
         commit('setError', null)
 
         const service = AppealsService.getInstance()
-        const data = await service.getRequests()
+        const data = await service.getRequests({
+          page,
+          page_size: 20
+        })
         commit('setAppeals', data)
       } catch (error) {
         commit('setError', (error as Error).message || 'Ошибка при загрузке обращений')

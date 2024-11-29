@@ -1,4 +1,4 @@
-import { IResponseWithPagination } from "../types"
+import { IResponseWithPagination } from '../types'
 
 /* eslint-disable camelcase */
 export interface Status {
@@ -170,7 +170,7 @@ export interface FilteredStatusCount {
     active: number
 }
 
-export interface RequestDto {
+export interface AppealItemDto {
     id: string
     setting: number
     setting_name: string
@@ -202,5 +202,5 @@ export interface RequestDto {
 export interface IAppealsResponse extends IResponseWithPagination {
     status_count: StatusCount
     filtered_status_count: FilteredStatusCount
-    results: RequestDto[]
+    results: AppealItemDto[]
 }
