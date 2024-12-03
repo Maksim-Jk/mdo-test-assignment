@@ -2,7 +2,7 @@
   <div class="appeals-table-widget">
     <div class="appeals-table-widget__header">
       <div class="appeals-table-widget__controls">
-        <BaseButton size="small" @click="$emit('open-modal')">test</BaseButton>
+        <BaseButton size="small" @click="openModal('create')">Создать</BaseButton>
       </div>
       <div class="appeals-table-widget__filters">
         <SearchInput @input="handleSearch" />
@@ -42,7 +42,7 @@
       <template v-else>
         <tr v-for="appeal in appeals.results" :key="appeal.id">
           <td class="appeals-table-widget__number">
-            <EditAppeals :appeal="appeal" />
+            <BaseButton size="small" @click="openModal('edit', appeal.id)">{{ appeal.number }}</BaseButton>
           </td>
           <td class="appeals-table-widget__created-at">
             {{ formatDate(appeal.created_at) }}
@@ -78,6 +78,14 @@
       @page-change="handlePageChange"
       @page-size-change="handlePageSizeChange"
     />
+
+    <BaseModal :is-open="modal.isModalOpen && modal.modalName === 'create'" title="AppealsCreateModal" name="AppealsCreateModal" @close="closeModal">
+      <AppealsCreateModal @close="closeModal" />
+    </BaseModal>
+
+    <BaseModal :is-open="modal.isModalOpen && modal.modalName === 'edit'" title="AppealsEditModal" name="AppealsEditModal" @close="closeModal">
+      <AppealsEditModal :appeals-id="modal.appealId" @close="closeModal" />
+    </BaseModal>
   </div>
 </template>
 
@@ -85,25 +93,34 @@
 /* eslint-disable camelcase */
 import Vue from 'vue'
 import { AppealItemDto, Applicant } from '@/shared/api/appeals/types'
-import EditAppeals from '@/features/appeals/ui/EditAppeals.vue'
 import TablePagination from '@/features/table-pagination/ui/TablePagination.vue'
 import BaseTable from '@/shared/ui/BaseTable/BaseTable.vue'
 import SearchInput from '@/features/search/ui/SearchInput.vue'
 import DictionarySelect from '@/features/dictionary-select/ui/DictionarySelect.vue'
 import BaseButton from '@/shared/ui/BaseButton/BaseButton.vue'
+import AppealsEditModal from '@/widgets/appeals-edit-modal/ui/AppealsEditModal.vue'
+import AppealsCreateModal from '@/widgets/appeals-create-modal/ui/AppealsCreateModal.vue'
+import BaseModal from '@/shared/ui/BaseModal/BaseModal.vue'
 
 export default Vue.extend({
   name: 'AppealsTable',
   components: {
-    EditAppeals,
     TablePagination,
     BaseTable,
     SearchInput,
     DictionarySelect,
-    BaseButton
+    BaseButton,
+    AppealsCreateModal,
+    AppealsEditModal,
+    BaseModal
   },
   data () {
     return {
+      modal: {
+        isModalOpen: false,
+        modalName: '',
+        appealId: null as number | null
+      },
       currentPage: 1,
       pageSize: 10,
       sortField: '',
@@ -237,6 +254,14 @@ export default Vue.extend({
     },
     handlePremiseChange (value: string) {
       this.premise_id = value
+    },
+    openModal (name: string, id?: number) {
+      this.modal.isModalOpen = true
+      this.modal.modalName = name
+      this.modal.appealId = id || null
+    },
+    closeModal () {
+      this.modal.isModalOpen = false
     }
   }
 })

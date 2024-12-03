@@ -1,22 +1,27 @@
 <template>
+  <div>
     <BaseSelect
-        :options="options"
-        :value="value"
-        @change="handleChange"
-        @search="handleSearch"
-        :placeholder="placeholder"
-        :enable-server-search="true"
-        :loading="isLoading"
-        :disabled="isDisabled"
-        :size="size"
+      :options="options"
+    :value="localValue"
+    @change="handleChange"
+    @search="handleSearch"
+    :placeholder="placeholder"
+    :enable-server-search="true"
+    :loading="isLoading"
+    :disabled="disabled || isDisabled"
+    :size="size"
     />
+  </div>
 </template>
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 import BaseSelect from '@/shared/ui/BaseSelect/BaseSelect.vue'
 
-import { DictionaryResponseType, DictionaryTypes } from '@/shared/api/dictionaries/dictionaries.service'
+import {
+  DictionaryResponseType,
+  DictionaryTypes
+} from '@/shared/api/dictionaries/dictionaries.service'
 
 export default Vue.extend({
   name: 'DictionarySelect',
@@ -43,11 +48,19 @@ export default Vue.extend({
     size: {
       type: String,
       default: 'medium'
+    },
+    value: {
+      type: [String, Number],
+      default: undefined
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
-      value: undefined as string | number | undefined,
+      localValue: this.value,
       items: [] as DictionaryResponseType[DictionaryTypes][],
       isLoading: false
     }
@@ -61,12 +74,14 @@ export default Vue.extend({
     },
     isDisabled (): boolean {
       if (!this.dependencyKey) return false
-      return this.dependencyValue === null || this.dependencyValue === undefined
+      return (
+        this.dependencyValue === null || this.dependencyValue === undefined
+      )
     }
   },
   methods: {
     handleChange (value: string | number) {
-      this.value = value
+      this.localValue = value
       this.$emit('change', value)
     },
 
@@ -87,6 +102,11 @@ export default Vue.extend({
       } finally {
         this.isLoading = false
       }
+    }
+  },
+  watch: {
+    value (newValue) {
+      this.localValue = newValue
     }
   }
 })

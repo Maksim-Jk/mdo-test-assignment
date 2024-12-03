@@ -66,6 +66,11 @@ export default defineComponent({
     }
   },
   methods: {
+    async loadInitialOption () {
+      if (this.value !== null && this.value !== undefined && !this.selectedOption) {
+        this.$emit('search', '')
+      }
+    },
     handleInput (value: string) {
       this.inputValue = value
       this.isOpen = true
@@ -117,12 +122,20 @@ export default defineComponent({
     }
   },
   watch: {
+    value: {
+      immediate: true,
+      handler () {
+        if (this.enableServerSearch) {
+          this.loadInitialOption()
+        }
+      }
+    },
     selectedOption: {
       immediate: true,
       handler (newVal) {
         if (newVal) {
           this.inputValue = newVal.label
-        } else {
+        } else if (!this.isOpen) {
           this.inputValue = ''
         }
       }
@@ -150,7 +163,10 @@ export default defineComponent({
         @focus="calculateDropdownPosition"
       >
         <template #suffix>
-          <div :class="['select-arrow', { 'is-open': isOpen }]" />
+          <div :class="['select-arrow', { 'is-open': isOpen }]" v-if="!loading" />
+          <div class="loading-container" v-if="loading">
+            <div class="loading-spinner" />
+          </div>
         </template>
       </BaseInput>
 
@@ -265,8 +281,8 @@ export default defineComponent({
 }
 
 .loading-spinner {
-  width: 16px;
-  height: 16px;
+  width: 12px;
+  height: 12px;
   border: 2px solid $color-background;
   border-top: 2px solid $color-accent;
   border-radius: 50%;
@@ -281,6 +297,6 @@ export default defineComponent({
 .loading-container {
   display: flex;
   justify-content: center;
-  padding: 16px;
+  padding: 4px;
 }
 </style>

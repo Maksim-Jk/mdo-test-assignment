@@ -10,6 +10,7 @@
         submit-button-text="Создать"
         @submit="handleSubmit"
         @cancel="$emit('close')"
+        :disabled="isLoading"
       />
     </div>
   </template>
@@ -17,6 +18,7 @@
 <script lang="ts">
 import AppealsForm from '@/features/appeals-form/ui/AppealsForm.vue'
 import { AppealsService } from '@/shared/api/appeals/appeals.service'
+import { AppealItemDto } from '@/shared/api/appeals/types'
 import { validateNestedObject } from '@/shared/utils/validation'
 import Vue from 'vue'
 
@@ -25,8 +27,15 @@ export default Vue.extend({
   components: {
     AppealsForm
   },
+  props: {
+    appealsId: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
+      isLoading: false,
       form: {
         premise_id: null as string | null,
         apartment_id: null as number | null,
@@ -38,8 +47,14 @@ export default Vue.extend({
         },
         description: '',
         due_date: '',
-        status: 'новая'
+        status: 'Новая',
+        status_id: null as number | null
       }
+    }
+  },
+  created () {
+    if (this.appealsId) {
+      this.fetchAppeals()
     }
   },
   methods: {
@@ -54,11 +69,25 @@ export default Vue.extend({
       const payload = {
         ...this.form,
         premise_id: this.form.premise_id!,
-        apartment_id: this.form.apartment_id!,
-        status_id: 1
+        apartment_id: this.form.apartment_id!
       }
 
       AppealsService.getInstance().createAppeals(payload)
+    },
+    async fetchAppeals () {
+      this.isLoading = true
+      try {
+        await this.$store.dispatch('appeals/fetchAppealById', this.appealsId)
+        const appeals = this.$store.getters['appeals/getAppealById'](this.appealsId) as AppealItemDto
+        this.form.premise_id = appeals?.premise?.id || null
+        this.form.apartment_id = appeals?.apartment?.id || null
+        this.form.applicant = appeals?.applicant
+        this.form.description = appeals?.description
+        this.form.due_date = appeals?.due_date || ''
+        this.form.status_id = appeals?.status?.id
+      } finally {
+        this.isLoading = false
+      }
     }
   }
 })

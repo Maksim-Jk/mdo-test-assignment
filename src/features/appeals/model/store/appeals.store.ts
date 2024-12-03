@@ -7,6 +7,7 @@ type RootState = Record<string, never>
 
 interface AppealsState {
   appeals: IAppealsResponse[];
+  singleAppeal: IAppealsResponse | null;
   isLoading: boolean;
   error: string | null;
   cache: Record<string, IAppealsResponse[]>;
@@ -16,6 +17,7 @@ export const appealsStore = {
   namespaced: true,
   state: (): AppealsState => ({
     appeals: [],
+    singleAppeal: null,
     isLoading: false,
     error: null,
     cache: {}
@@ -23,6 +25,9 @@ export const appealsStore = {
   mutations: {
     setAppeals (state: AppealsState, appeals: IAppealsResponse[]) {
       state.appeals = appeals
+    },
+    setSingleAppeal (state: AppealsState, appeal: IAppealsResponse) {
+      state.singleAppeal = appeal
     },
     setLoading (state: AppealsState, loading: boolean) {
       state.isLoading = loading
@@ -36,9 +41,8 @@ export const appealsStore = {
   },
   actions: {
     async fetchAppeals ({ commit, state }: ActionContext<AppealsState, RootState>, { page = 1, page_size = 10, search = '', premise_id = null, ordering = undefined } = {}) {
-      const cacheKey = `${page}-${page_size}-${search}-${premise_id}-${ordering}`
+      const cacheKey = `list-${page}-${page_size}-${search}-${premise_id}-${ordering}`
 
-      console.log('store', search)
       if (state.cache[cacheKey]) {
         commit('setAppeals', state.cache[cacheKey])
         return
@@ -64,10 +68,24 @@ export const appealsStore = {
       } finally {
         commit('setLoading', false)
       }
+    },
+    async fetchAppealById ({ commit, state }: ActionContext<AppealsState, RootState>, id: number) {
+      const cacheKey = `single-${id}`
+
+      if (state.cache[cacheKey]) {
+        commit('setSingleAppeal', state.cache[cacheKey])
+        return
+      }
+
+      const service = AppealsService.getInstance()
+      const data = await service.getAppealById(id)
+      commit('setSingleAppeal', data)
+      commit('setCache', { key: cacheKey, data })
     }
   },
   getters: {
     appeals: (state: AppealsState) => state.appeals,
+    getAppealById: (state: AppealsState) => (id: number) => state.cache[`single-${id}`],
     isLoading: (state: AppealsState) => state.isLoading,
     error: (state: AppealsState) => state.error
   }

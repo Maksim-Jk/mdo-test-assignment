@@ -206,7 +206,7 @@ export interface IAppealsResponse extends IResponseWithPagination {
 }
 
 export interface IAppeals {
-    premise_id: number
+    premise_id: string
     apartment_id: number
     applicant: Applicant
     description: string

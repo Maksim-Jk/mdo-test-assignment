@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { BaseApiService } from '../base-api.service'
-import { IAppeals, IAppealsResponse } from './types'
+import { AppealItemDto, IAppeals, IAppealsResponse } from './types'
 
 type Ordering = 'number' | '-number' | 'created_at' | '-created_at' | 'status' | '-status'
 export interface IAppealsRequestParams {
@@ -28,6 +28,11 @@ export class AppealsService extends BaseApiService {
 
     public async createAppeals (data: IAppeals): Promise<IAppealsResponse> {
       const response = await this.api.post<IAppealsResponse>('/appeals/v1.0/appeals/', data)
+      return response.data
+    }
+
+    public async getAppealById (id: number): Promise<AppealItemDto> {
+      const response = await this.api.get<AppealItemDto>(`/appeals/v1.0/appeals/${id}/`)
       return response.data
     }
 }
