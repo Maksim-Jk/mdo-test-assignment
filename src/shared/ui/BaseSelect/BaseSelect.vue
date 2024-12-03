@@ -1,13 +1,17 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { IBaseSelectOption } from './baseSelect.types'
+import BaseInput from '../BaseInput/BaseInput.vue'
 
 export default defineComponent({
   name: 'BaseSelect',
+  components: {
+    BaseInput
+  },
   props: {
     value: {
       type: [String, Number],
-      default: ''
+      default: null
     },
     placeholder: {
       type: String,
@@ -28,80 +32,152 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false
+    },
+    enableServerSearch: {
+      type: Boolean,
+      default: false
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
       isOpen: false,
-      isFocused: false
+      inputValue: '',
+      dropdownPlacement: 'bottom'
     }
   },
   computed: {
-    hasValue (): boolean {
-      return Boolean(this.value)
+    filteredOptions (): IBaseSelectOption[] {
+      if (!this.inputValue) return this.options
+
+      const query = this.inputValue.toLowerCase()
+      return this.options.filter(option =>
+        option.label.toLowerCase().includes(query)
+      )
+    },
+    displayValue (): string {
+      return this.inputValue
     },
     selectedOption (): IBaseSelectOption | undefined {
-      return this.options.find((option: IBaseSelectOption) => option.value === this.value)
+      return this.options.find(option => option.value === this.value)
     }
   },
   methods: {
+    handleInput (value: string) {
+      this.inputValue = value
+      this.isOpen = true
+
+      if (this.enableServerSearch) {
+        this.$emit('search', value)
+      }
+
+      if (this.value) {
+        this.$emit('change', null)
+      }
+    },
     handleSelect (option: IBaseSelectOption) {
-      this.$emit('input', option.value)
+      this.$emit('change', option.value)
+      this.inputValue = option.label
       this.isOpen = false
-      this.isFocused = true
     },
     handleBlur () {
       setTimeout(() => {
+        if (!this.selectedOption && this.value === null) {
+          this.inputValue = ''
+        }
         this.isOpen = false
-        this.isFocused = false
       }, 200)
+    },
+    calculateDropdownPosition () {
+      const selectEl = this.$el as HTMLElement
+      const selectRect = selectEl.getBoundingClientRect()
+      const windowHeight = window.innerHeight
+      const dropdownHeight = 200
+
+      if (windowHeight - selectRect.bottom < dropdownHeight &&
+          selectRect.top > dropdownHeight) {
+        this.dropdownPlacement = 'top'
+      } else {
+        this.dropdownPlacement = 'bottom'
+      }
+    },
+    handleClickOutside (event: MouseEvent) {
+      const target = event.target as Node
+      if (!this.$el.contains(target)) {
+        this.isOpen = false
+        if (!this.selectedOption) {
+          this.inputValue = ''
+        } else {
+          this.inputValue = this.selectedOption.label
+        }
+      }
     }
+  },
+  watch: {
+    selectedOption: {
+      immediate: true,
+      handler (newVal) {
+        if (newVal) {
+          this.inputValue = newVal.label
+        } else {
+          this.inputValue = ''
+        }
+      }
+    }
+  },
+  mounted () {
+    document.addEventListener('click', this.handleClickOutside)
+  },
+  beforeUnmount () {
+    document.removeEventListener('click', this.handleClickOutside)
   }
 })
 </script>
 
 <template>
   <div class="select-wrapper">
-    <div
-      :class="[
-        'select-container',
-        `size-${size}`,
-        { 'is-disabled': disabled }
-      ]"
-    >
-      <div
-        class="select-field"
-        @click="isOpen = !isOpen"
+    <div class="select-container">
+      <BaseInput
+        :value="displayValue"
+        :placeholder="placeholder"
+        :size="size"
+        :disabled="disabled"
+        @input="handleInput"
+        @blur="handleBlur"
+        @focus="calculateDropdownPosition"
       >
-        <label
-          :class="['select-label', { 'has-value': hasValue }]"
-        >
-          {{ placeholder }}
-        </label>
-
-        <div
-          class="base-select"
-          :tabindex="disabled ? -1 : 0"
-          @blur="handleBlur"
-          @focus="isFocused = true"
-        >
-          {{ selectedOption?.label || '' }}
-        </div>
-
-        <div :class="['select-arrow', { 'is-open': isOpen }]" />
-      </div>
+        <template #suffix>
+          <div :class="['select-arrow', { 'is-open': isOpen }]" />
+        </template>
+      </BaseInput>
 
       <div
         v-if="isOpen"
-        class="options-container"
+        :class="[
+          'options-container',
+          `dropdown-${dropdownPlacement}`
+        ]"
       >
-        <div
-          v-for="option in options"
-          :key="option.value"
-          class="option"
-          @click="handleSelect(option)"
-        >
-          {{ option.label }}
+        <template v-if="loading">
+          <div class="loading-container">
+            <div class="loading-spinner" />
+          </div>
+        </template>
+        <template v-else-if="filteredOptions.length > 0">
+          <div
+            v-for="option in filteredOptions"
+            :key="option.value"
+            class="option"
+            @mousedown="handleSelect(option)"
+          >
+            {{ option.label }}
+          </div>
+        </template>
+        <div v-else class="no-results">
+          Ничего не найдено
         </div>
       </div>
     </div>
@@ -112,125 +188,13 @@ export default defineComponent({
 .select-wrapper {
   position: relative;
   width: 100%;
-  border-bottom: 1px solid $color-border;
-  margin-top: 6px;
 }
 
 .select-container {
-  width: 100%;
-
-  &.is-disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-
-    .base-select {
-      cursor: not-allowed;
-    }
-  }
-
-  &.size-medium {
-    .base-select {
-      padding: 8px 0;
-      min-height: 40px;
-      @extend .r14r;
-    }
-    .select-label {
-      @extend .r14r;
-      padding: 8px 0;
-    }
-  }
-
-  &.size-large {
-    .base-select {
-      padding: 17px 0;
-      min-height: 56px;
-      @extend .r14r;
-    }
-    .select-label {
-      @extend .r14r;
-      padding: 17px 0;
-    }
-  }
-}
-
-.select-field {
   position: relative;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.base-select {
-  width: 100%;
-  outline: none;
-  transition: all 0.2s ease;
-  color: $color-text-primary;
-  text-align: left;
-  cursor: pointer;
-
-  &:focus {
-    border-color: $color-accent;
-  }
-
-  &:disabled {
-    background-color: $color-background;
-  }
-}
-
-.select-label {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  color: $color-text-secondary;
-  transition: all 0.2s ease;
-  pointer-events: none;
-
-  &.has-value {
-    top: 0;
-    @extend .r12r;
-    color: $color-text-accent;
-  }
-}
-
-.options-container {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  background: white;
-  border: 1px solid $color-border;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 1000;
-}
-
-.option {
-  cursor: pointer;
-  @extend .r14r;
-  text-align: left;
-  border-bottom: 1px solid $color-border;
-
-  .size-medium & {
-    padding: 8px;
-  }
-
-  .size-large & {
-    padding: 17px;
-  }
-
-  &:hover {
-    background-color: rgba($color-accent, 0.1);
-  }
-}
-
-.option:last-child {
-  border-bottom: none;
 }
 
 .select-arrow {
-  position: absolute;
-  right: 0;
   width: 0;
   height: 0;
   border-left: 5px solid transparent;
@@ -241,5 +205,82 @@ export default defineComponent({
   &.is-open {
     transform: rotate(180deg);
   }
+}
+
+.options-container {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid $color-border;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  &.dropdown-bottom {
+    top: calc(100% + 4px);
+  }
+
+  &.dropdown-top {
+    bottom: calc(100% + 4px);
+  }
+
+  // Стили для Firefox
+  scrollbar-width: thin;
+  scrollbar-color: $color-accent $color-background;
+
+  // Стили для Chrome/Safari/Edge
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $color-background;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $color-accent;
+    border-radius: 3px;
+  }
+}
+
+.option {
+  padding: 8px;
+  cursor: pointer;
+  @extend .r14r;
+
+  &:hover {
+    background-color: rgba($color-accent, 0.1);
+  }
+}
+
+.no-results {
+  padding: 8px;
+  text-align: center;
+  color: $color-text-secondary;
+  @extend .r14r;
+}
+
+.loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid $color-background;
+  border-top: 2px solid $color-accent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
 }
 </style>

@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import LogoutButton from '@/features/LogoutButton/LogoutButton.vue'
+import LogoutButton from '@/features/logout-button/LogoutButton.vue'
 
 export default Vue.extend({
   name: 'AppLayout',
@@ -32,13 +32,12 @@ export default Vue.extend({
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding: 0 16px;
+  background-color: $page-background;
 }
 
 .app-header {
-  background-color: $color-surface;
-  border-bottom: 1px solid $color-border;
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 24px 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -46,12 +45,13 @@ export default Vue.extend({
 
 .app-title {
   color: $color-text-title;
-  margin: 0;
-  font-size: 1.5rem;
+  @extend .r20r;
 }
 
 .app-content {
   flex: 1;
-  padding: 2rem;
+  padding: 10px 20px;
+  background-color: $color-surface;
+  border-radius: $size-border-radius;
 }
 </style>

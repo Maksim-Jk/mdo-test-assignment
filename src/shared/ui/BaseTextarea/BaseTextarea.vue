@@ -113,6 +113,10 @@ export default defineComponent({
     }
     .textarea-label {
       @extend .r14r;
+
+      &.has-value {
+        top: 0px;
+      }
     }
   }
 }
@@ -149,7 +153,7 @@ export default defineComponent({
   pointer-events: none;
 
   &.has-value {
-    top: 0;
+    top: -12px;
     @extend .r12r;
     color: $color-text-accent;
   }

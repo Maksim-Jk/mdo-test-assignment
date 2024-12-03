@@ -1,5 +1,5 @@
 <template>
-  <BaseButton @click="logout">Выйти</BaseButton>
+  <BaseButton @click="logout" size="small">Выйти</BaseButton>
   </template>
 
 <script lang="ts">

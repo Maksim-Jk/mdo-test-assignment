@@ -1,51 +1,37 @@
 <template>
   <div class="home">
-    <h2>Список заявок</h2>
-    <div v-if="isLoading">Загрузка...</div>
-    <div v-else-if="error">Ошибка при загрузке обращений</div>
-    <div v-else>
-      <AppealsTable
-        :appeals="appeals"
-        :current-page="currentPage"
-        @page-change="changePage"
-      />
-    </div>
+    <AppealsTable @open-modal="openModal" />
+    <BaseModal :is-open="isModalOpen" title="AppealsCreateModal" name="AppealsCreateModal" @close="closeModal">
+      <AppealsCreateModal @close="closeModal" />
+    </BaseModal>
   </div>
 </template>
 
 <script lang="ts">
-import AppealsTable from '@/widgets/AppealsTable/ui/AppealsTable.vue'
 import Vue from 'vue'
+import AppealsTable from '@/widgets/AppealsTable/ui/AppealsTable.vue'
+import BaseModal from '@/shared/ui/BaseModal/BaseModal.vue'
+import AppealsCreateModal from '@/widgets/appeals-create-modal/ui/AppealsCreateModal.vue'
 
 export default Vue.extend({
   name: 'HomePage',
   components: {
-    AppealsTable
+    AppealsTable,
+    BaseModal,
+    AppealsCreateModal
   },
   data () {
     return {
-      currentPage: 1
-    }
-  },
-  computed: {
-    isLoading () {
-      return this.$store.getters['appeals/isLoading']
-    },
-    error () {
-      return this.$store.getters['appeals/error']
-    },
-    appeals () {
-      return this.$store.getters['appeals/appeals']
+      isModalOpen: false
     }
   },
   methods: {
-    async changePage (page: number) {
-      this.currentPage = page
-      await this.$store.dispatch('appeals/fetchAppeals', { page })
+    openModal () {
+      this.isModalOpen = true
+    },
+    closeModal () {
+      this.isModalOpen = false
     }
-  },
-  async mounted () {
-    await this.$store.dispatch('appeals/fetchAppeals', { page: 1 })
   }
 })
 </script>

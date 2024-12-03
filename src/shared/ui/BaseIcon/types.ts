@@ -1,2 +1,1 @@
-export const ICON_NAMES = ['phone', 'lock', 'person', 'eye'] as const
-export type IconName = typeof ICON_NAMES[number]
+export type IconName = 'phone' | 'lock' | 'person' | 'eye' | 'arrow-left' | 'double-arrow-left' | 'arrow-up' | 'search'

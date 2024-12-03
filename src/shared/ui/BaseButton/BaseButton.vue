@@ -20,7 +20,7 @@ export default defineComponent({
     variant: {
       type: String,
       default: 'default',
-      validator: (value: string) => ['default', 'unselected'].includes(value)
+      validator: (value: string) => ['default', 'unselected', 'secondary'].includes(value)
     }
   }
 })
@@ -106,6 +106,17 @@ export default defineComponent({
   &.variant-default {
     background-color: $color-accent;
     color: $color-text-white;
+  }
+
+  &.variant-secondary {
+    background-color: rgba($color-accent, 0.1);
+    color: $color-accent;
+    box-shadow: none;
+
+    &:hover:not(:disabled) {
+      background-color: rgba($color-accent, 0.2);
+      opacity: 1;
+    }
   }
 
   &.variant-unselected {

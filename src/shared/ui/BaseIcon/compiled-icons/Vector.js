@@ -1,7 +1,7 @@
 /* eslint-disable */
 var icon = require('vue-svgicon')
 icon.register({
-  'eye': {
+  'Vector': {
     width: 22,
     height: 19,
     viewBox: '0 0 22 19',

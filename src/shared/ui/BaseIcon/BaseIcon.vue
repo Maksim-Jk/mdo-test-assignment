@@ -12,17 +12,14 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { IconName, ICON_NAMES } from './types'
+import { IconName } from './types'
 
 export default Vue.extend({
   name: 'BaseIcon',
   props: {
     icon: {
       type: String as PropType<IconName>,
-      required: true,
-      validator: (value: string): boolean => {
-        return ICON_NAMES.includes(value as IconName)
-      }
+      required: true
     },
     size: {
       type: [Number, String],

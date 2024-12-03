@@ -4,6 +4,6 @@ export interface IResponseWithPagination {
     pages: number
     page_size: number
     page: number
-    page_next: number
+    page_next: number | null
     page_previous: number | null
 }

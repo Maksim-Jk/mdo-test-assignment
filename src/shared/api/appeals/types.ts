@@ -65,7 +65,7 @@ export interface Applicant {
     username: string
     last_name: string
     first_name: string
-    email: string
+    email?: string
     patronymic_name: string
 }
 
@@ -203,4 +203,13 @@ export interface IAppealsResponse extends IResponseWithPagination {
     status_count: StatusCount
     filtered_status_count: FilteredStatusCount
     results: AppealItemDto[]
+}
+
+export interface IAppeals {
+    premise_id: number
+    apartment_id: number
+    applicant: Applicant
+    description: string
+    due_date: string
+    status: string
 }

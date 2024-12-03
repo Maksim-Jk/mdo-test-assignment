@@ -19,6 +19,10 @@ $in: 'Inter', sans-serif;
   &14m { @include ft($rb, 14, 500); }
   &16m { @include ft($rb, 16, 500); }
   &20m { @include ft($rb, 20, 500); }
+
+  &14b { @include ft($rb, 14, 600); }
+  &16b { @include ft($rb, 16, 600); }
+  &20b { @include ft($rb, 20, 600); }
 }
 
 .i {
@@ -33,4 +37,8 @@ $in: 'Inter', sans-serif;
   &14m { @include ft($in, 14, 500); }
   &16m { @include ft($in, 16, 500); }
   &20m { @include ft($in, 20, 500); }
+
+  &14b { @include ft($in, 14, 600); }
+  &16b { @include ft($in, 16, 600); }
+  &20b { @include ft($in, 20, 600); }
 }

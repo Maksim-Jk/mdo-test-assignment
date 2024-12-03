@@ -19,8 +19,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
-import LoginInput from '@/features/login/ui/LoginInput/LoginInput.vue'
-import PasswordInput from '@/features/password/ui/PasswordInput/PasswordInput.vue'
+import LoginInput from '@/features/login/ui/login-input/LoginInput.vue'
+import PasswordInput from '@/features/password/ui/password-input/PasswordInput.vue'
 import BaseButton from '@/shared/ui/BaseButton/BaseButton.vue'
 
 export default Vue.extend({

@@ -46,7 +46,6 @@ export default defineComponent({
 
 <template>
   <div class="input-wrapper">
-
     <div
       :class="[
         'input-container',
@@ -114,11 +113,15 @@ export default defineComponent({
 
   &.size-large {
     .base-input {
-      padding: 17px 0;
+      padding: 10px 0;
       @extend .r14r;
     }
     .input-label {
       @extend .r14r;
+
+      &.has-value {
+        top: 0px;
+      }
     }
   }
 }
