@@ -54,7 +54,7 @@ export default defineComponent({
           username: ''
         },
         description: '',
-        due_date: ''
+        due_date: '' as string | Date
       }
     }
   },
@@ -78,7 +78,8 @@ export default defineComponent({
           ...this.form,
           premise_id: this.form.premise_id!,
           apartment_id: this.form.apartment_id!,
-          number: this.form.number!
+          number: this.form.number!,
+          due_date: new Date(this.form.due_date).toISOString()
         }
 
         const response = await AppealsService.getInstance().updateAppeal(this.appealsId, payload)
@@ -106,7 +107,7 @@ export default defineComponent({
           username: appeals?.applicant?.username || ''
         }
         this.form.description = appeals?.description
-        this.form.due_date = appeals?.due_date || ''
+        this.form.due_date = appeals?.due_date ? new Date(appeals.due_date) : ''
         this.form.number = appeals?.number
         this.form.created_at = appeals?.created_at
         this.status_name = appeals?.status?.name

@@ -18,7 +18,8 @@ module.exports = defineConfig({
         path.resolve(__dirname, './src/app/assets/styles/resetStyles.scss'),
         path.resolve(__dirname, './src/app/assets/styles/variables.scss'),
         path.resolve(__dirname, './src/app/assets/styles/typography.scss'),
-        path.resolve(__dirname, './src/app/assets/styles/global.scss')
+        path.resolve(__dirname, './src/app/assets/styles/global.scss'),
+        path.resolve(__dirname, './src/app/assets/styles/lib/datepicker.scss')
       ]
     }
   }

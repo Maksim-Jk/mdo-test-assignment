@@ -19,12 +19,11 @@
         @change="handleApartmentChange"
         :disabled="disabled"
       />
-      <BaseInput
-        size="large"
-        placeholder="Срок"
-        :value="modelValue.due_date ?? ''"
-        @input="$emit('update:modelValue', { ...modelValue, due_date: $event })"
+      <BaseDateTimePicker
+        :value="modelValue.due_date"
+        @input="handleDueDateChange"
         :disabled="disabled"
+        label="Срок"
       />
     </div>
     <div class="appeals-form__row">
@@ -32,28 +31,48 @@
         size="large"
         placeholder="Фамилия"
         :value="modelValue.applicant?.last_name ?? ''"
-        @input="$emit('update:modelValue', { ...modelValue, applicant: { ...modelValue.applicant, last_name: $event } })"
+        @input="
+          $emit('update:modelValue', {
+            ...modelValue,
+            applicant: { ...modelValue.applicant, last_name: $event },
+          })
+        "
         :disabled="disabled"
       />
       <BaseInput
         size="large"
         placeholder="Имя"
         :value="modelValue.applicant?.first_name ?? ''"
-        @input="$emit('update:modelValue', { ...modelValue, applicant: { ...modelValue.applicant, first_name: $event } })"
+        @input="
+          $emit('update:modelValue', {
+            ...modelValue,
+            applicant: { ...modelValue.applicant, first_name: $event },
+          })
+        "
         :disabled="disabled"
       />
       <BaseInput
         size="large"
         placeholder="Отчество"
         :value="modelValue.applicant?.patronymic_name ?? ''"
-        @input="$emit('update:modelValue', { ...modelValue, applicant: { ...modelValue.applicant, patronymic_name: $event } })"
+        @input="
+          $emit('update:modelValue', {
+            ...modelValue,
+            applicant: { ...modelValue.applicant, patronymic_name: $event },
+          })
+        "
         :disabled="disabled"
       />
       <BaseInput
         size="large"
         placeholder="Телефон"
         :value="modelValue.applicant?.username ?? ''"
-        @input="$emit('update:modelValue', { ...modelValue, applicant: { ...modelValue.applicant, username: $event } })"
+        @input="
+          $emit('update:modelValue', {
+            ...modelValue,
+            applicant: { ...modelValue.applicant, username: $event },
+          })
+        "
         :disabled="disabled"
       />
     </div>
@@ -62,7 +81,9 @@
         size="large"
         placeholder="Описание заявки"
         :value="modelValue.description ?? ''"
-        @input="$emit('update:modelValue', { ...modelValue, description: $event })"
+        @input="
+          $emit('update:modelValue', { ...modelValue, description: $event })
+        "
         :disabled="disabled"
       />
     </div>
@@ -89,6 +110,7 @@ import BaseInput from '@/shared/ui/BaseInput/BaseInput.vue'
 import BaseTextarea from '@/shared/ui/BaseTextarea/BaseTextarea.vue'
 import BaseButton from '@/shared/ui/BaseButton/BaseButton.vue'
 import { IAppeal } from '@/shared/api/appeals/types'
+import BaseDateTimePicker from '@/shared/ui/BaseDateTimePicker/BaseDateTimePicker.vue'
 
 export default defineComponent({
   name: 'AppealsForm',
@@ -96,7 +118,8 @@ export default defineComponent({
     DictionarySelect,
     BaseInput,
     BaseTextarea,
-    BaseButton
+    BaseButton,
+    BaseDateTimePicker
   },
   props: {
     modelValue: {
@@ -128,6 +151,12 @@ export default defineComponent({
       this.$emit('update:modelValue', {
         ...this.modelValue,
         apartment_id: id
+      })
+    },
+    handleDueDateChange (value: string) {
+      this.$emit('update:modelValue', {
+        ...this.modelValue,
+        due_date: value
       })
     }
   }

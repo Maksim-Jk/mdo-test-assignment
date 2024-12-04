@@ -224,7 +224,7 @@ export interface IAppeal {
     apartment_id?: number | null
     applicant?: Applicant | null
     description?: string | null
-    due_date?: string | null
+    due_date?: string | null | Date
     status_id?: number | null
     created_at?: string | null
     number?: number | null
