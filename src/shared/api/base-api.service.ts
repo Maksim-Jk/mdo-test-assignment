@@ -1,6 +1,6 @@
 import store from '@/app/store'
 import axios, { AxiosInstance } from 'axios'
-import { notificationService } from '../lib/notification/notification.service'
+import { notificationService } from '../lib'
 
 export class BaseApiService {
     protected readonly api: AxiosInstance;

@@ -9,7 +9,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate-icons": "vsvg -s ./src/shared/ui/BaseIcon/icons -t ./src/shared/ui/BaseIcon/compiled-icons"
+    "generate-icons": "vsvg -s ./src/shared/ui/base-icon/icons -t ./src/shared/ui/base-icon/compiled-icons"
   },
   "main": "index.js",
   "dependencies": {
@@ -67,7 +67,10 @@
       "parser": "@typescript-eslint/parser",
       "ecmaVersion": 2020
     },
-    "rules": {}
+    "rules": {
+      "camelcase": "off",
+      "@typescript-eslint/naming-convention": "off"
+    }
   },
   "browserslist": [
     "> 1%",

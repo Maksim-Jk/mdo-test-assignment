@@ -4,7 +4,7 @@ import store from './store'
 import router from './router'
 import SvgIcon from 'vue-svgicon'
 
-import '@/shared/ui/BaseIcon/compiled-icons'
+import '@/shared/ui/base-icon/compiled-icons'
 
 Vue.use(SvgIcon, {
   tagName: 'svgicon',
@@ -14,7 +14,6 @@ Vue.use(SvgIcon, {
 
 Vue.config.productionTip = false
 
-// Инициализируем store перед созданием Vue instance
 store.dispatch('auth/init').then(() => {
   new Vue({
     store,

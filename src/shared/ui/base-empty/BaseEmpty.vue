@@ -2,7 +2,7 @@
   <div class="base-empty">
     <div class="base-empty__icon">
       <slot name="icon">
-        <BaseIcon icon="box" class="base-empty__default-icon" size="32" />
+        <BaseIcon icon="box" class="base-empty__default-icon" :size="32" />
       </slot>
     </div>
 
@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import BaseIcon from '@/shared/ui/BaseIcon/BaseIcon.vue'
 import { defineComponent } from 'vue'
+import BaseIcon from '../base-icon/BaseIcon.vue'
 
 export default defineComponent({
   name: 'BaseEmpty',
@@ -50,14 +50,13 @@ export default defineComponent({
   }
 
   &__title {
-    font-weight: 500;
-    font-size: 16px;
+    @extend .r14r;
     color: $color-text-secondary;
     margin-bottom: 8px;
   }
 
   &__description {
-    font-size: 14px;
+    @extend .r12r;
     color: $color-text-secondary;
     margin-bottom: 16px;
   }

@@ -4,7 +4,7 @@
         <h3 class="appeals-create-modal__header-title">Создание заявки</h3>
         <span class="appeals-create-modal__header-status">Новая</span>
       </div>
-      <AppealsForm
+      <appeals-form
         :modelValue="form"
         @update:modelValue="form = $event"
         submit-button-text="Создать"
@@ -12,17 +12,17 @@
         @cancel="$emit('close')"
         :disabled="isLoading"
       />
-      <WindowLoader v-if="isLoading" />
+      <window-loader v-if="isLoading" />
     </div>
   </template>
 
 <script lang="ts">
-import AppealsForm from '@/features/appeals-form/ui/AppealsForm.vue'
-import { AppealsService } from '@/shared/api/appeals/appeals.service'
-import { validateNestedObject } from '@/shared/utils/validation'
 import { defineComponent } from 'vue'
-import WindowLoader from '@/shared/ui/WindowLoader/WindowLoader.vue'
-import { notificationService } from '@/shared/lib/notification/notification.service'
+import { WindowLoader } from '@/shared/ui'
+import { validateNestedObject } from '@/shared/utils'
+import { notificationService } from '@/shared/lib'
+import { AppealsService } from '@/shared/api'
+import { AppealsForm } from '@/features/appeals-form'
 
 export default defineComponent({
   name: 'AppealsCreateModal',

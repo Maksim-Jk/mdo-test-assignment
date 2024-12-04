@@ -1,12 +1,12 @@
 <template>
   <div class="home">
-    <AppealsTable />
+    <appeals-table />
   </div>
 </template>
 
 <script lang="ts">
+import { AppealsTable } from '@/widgets/appeals-table'
 import { defineComponent } from 'vue'
-import AppealsTable from '@/widgets/AppealsTable/ui/AppealsTable.vue'
 
 export default defineComponent({
   name: 'HomePage',

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 export interface IResponseWithPagination {
     count: number
     pages: number

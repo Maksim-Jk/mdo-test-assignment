@@ -1,6 +1,5 @@
 import { IResponseWithPagination } from '../types'
 
-/* eslint-disable camelcase */
 export interface Status {
     id: number
     name: string

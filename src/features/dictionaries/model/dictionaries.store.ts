@@ -1,18 +1,9 @@
-/* eslint-disable camelcase */
-import { DictionariesService, DictionaryTypes } from '@/shared/api/dictionaries/dictionaries.service'
-import { PremiseDictionaryDto } from '@/shared/api/dictionaries/types'
 import { ActionContext, Dispatch } from 'vuex'
+import { DictionariesState } from './types'
+import { generateCacheKey } from '@/shared/utils/cacheKey'
+import { DictionariesService, DictionaryTypes, PremiseDictionaryDto } from '../api'
 
 type RootState = Record<string, never>
-
-export interface DictionariesState {
-  dictionaries: {
-    [key in DictionaryTypes]: PremiseDictionaryDto[];
-  } | Record<string, never>;
-  isLoading: boolean;
-  error: string | null;
-  cache: Record<string, PremiseDictionaryDto[]>;
-}
 
 export const dictionariesStore = {
   namespaced: true,
@@ -38,7 +29,7 @@ export const dictionariesStore = {
   },
   actions: {
     async fetchDictionary ({ commit, state }: ActionContext<DictionariesState, RootState>, { name, options }: { name: DictionaryTypes, options: Record<string, string> }) {
-      const cacheKey = `${name}-${JSON.stringify(options)}`
+      const cacheKey = generateCacheKey(name, options)
 
       if (state.cache[cacheKey]) {
         commit('setDictionary', { name, data: state.cache[cacheKey] })
@@ -66,8 +57,7 @@ export const dictionariesStore = {
     isLoading: (state: DictionariesState) => state.isLoading,
     error: (state: DictionariesState) => state.error,
     getByName: (state: DictionariesState) => async (name: DictionaryTypes, dispatch: Dispatch, options: Record<string, string>) => {
-      const cacheKey = `${name}-${JSON.stringify(options)}`
-      console.log(cacheKey)
+      const cacheKey = generateCacheKey(name, options)
 
       if (!state.cache[cacheKey]) {
         await dispatch('dictionaries/fetchDictionary', { name, options }, { root: true })

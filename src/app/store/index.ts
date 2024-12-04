@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { authStore } from '@/features/auth/model/store/auth.store'
-import { appealsStore } from '@/features/appeals/model/store/appeals.store'
-import { dictionariesStore } from '@/features/dictionaries/model/dictionaries.store'
+import { appealsStore } from '@/features/appeals-table'
+import { authStore } from '@/features/auth'
+import { dictionariesStore } from '@/features/dictionaries'
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({

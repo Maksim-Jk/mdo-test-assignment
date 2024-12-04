@@ -1,18 +1,18 @@
 <template>
   <div class="app-layout">
     <header class="app-header">
-      <h1 class="app-title">{{ title }}</h1>
+      <h1 class="app-title" aria-label="Заголовок страницы">{{ pageTitle }}</h1>
       <LogoutButton />
     </header>
     <main class="app-content">
-      <router-view></router-view>
+      <router-view />
     </main>
   </div>
 </template>
 
 <script lang="ts">
+import LogoutButton from '@/features/auth/ui/logout-button/LogoutButton.vue'
 import { defineComponent } from 'vue'
-import LogoutButton from '@/features/logout-button/LogoutButton.vue'
 
 export default defineComponent({
   name: 'AppLayout',
@@ -20,8 +20,8 @@ export default defineComponent({
     LogoutButton
   },
   computed: {
-    title () {
-      return this.$route.meta?.title || ''
+    pageTitle (): string {
+      return this.$route.meta?.title ?? ''
     }
   }
 })
@@ -32,11 +32,11 @@ export default defineComponent({
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 0 16px;
+  padding: 0 var(--spacing-md, 16px);
 }
 
 .app-header {
-  padding: 24px 18px;
+  padding: var(--spacing-lg, 24px) var(--spacing-md, 18px);
   display: flex;
   justify-content: space-between;
   align-items: center;

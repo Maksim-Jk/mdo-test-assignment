@@ -1,16 +1,8 @@
 import router, { ROUTE_NAMES } from '@/app/router'
-import { UserDto } from '@/shared/api/auth/types'
-import { AuthService } from '@/shared/api/auth/auth.service'
 import { ActionContext } from 'vuex'
-
-type RootState = Record<string, never>
-
-interface AuthState {
-    user: UserDto | null;
-    isAuthenticated: boolean;
-    isLoading: boolean;
-    error: string | null;
-}
+import { AuthState, RootState } from './types'
+import { UserDto } from '../../api/types'
+import { AuthService } from '../../api/auth.service'
 
 export const authStore = {
   namespaced: true,

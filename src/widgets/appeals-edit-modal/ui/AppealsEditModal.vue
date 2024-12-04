@@ -4,7 +4,7 @@
         <h3 class="appeals-edit-modal__header-title">Заявка № {{ form.number }} (от {{ transformDateFromIso(form.created_at) }})</h3>
         <span class="appeals-edit-modal__header-status">{{ status_name }}</span>
       </div>
-      <AppealsForm
+      <appeals-form
         :modelValue="form"
         @update:modelValue="form = $event"
         submit-button-text="Сохранить"
@@ -12,20 +12,17 @@
         @cancel="$emit('close')"
         :disabled="isLoading"
       />
-      <WindowLoader v-if="isLoading" />
+      <window-loader v-if="isLoading" />
     </div>
   </template>
 
 <script lang="ts">
-import AppealsForm from '@/features/appeals-form/ui/AppealsForm.vue'
-import { AppealsService } from '@/shared/api/appeals/appeals.service'
-import { AppealItemDto } from '@/shared/api/appeals/types'
-import { transformDateFromIso } from '@/shared/utils/dateTransform'
-import { validateNestedObject } from '@/shared/utils/validation'
 import { defineComponent } from 'vue'
-import WindowLoader from '@/shared/ui/WindowLoader/WindowLoader.vue'
-import { notificationService } from '@/shared/lib/notification/notification.service'
-
+import { WindowLoader } from '@/shared/ui'
+import { transformDateFromIso, validateNestedObject } from '@/shared/utils'
+import { notificationService } from '@/shared/lib'
+import { AppealItemDto, AppealsService } from '@/shared/api'
+import { AppealsForm } from '@/features/appeals-form'
 export default defineComponent({
   name: 'AppealsEditModal',
   components: {

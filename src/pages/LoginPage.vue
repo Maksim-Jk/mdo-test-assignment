@@ -1,11 +1,11 @@
 <template>
   <div>
-    <LoginForm />
+    <login-form />
   </div>
 </template>
 
 <script lang="ts">
-import LoginForm from '@/widgets/LoginForm/LoginForm.vue'
+import { LoginForm } from '@/widgets/login-form'
 import { defineComponent } from 'vue'
 
 export default defineComponent({

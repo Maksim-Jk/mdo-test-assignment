@@ -12,38 +12,42 @@ export enum ROUTE_NAMES {
   REQUESTS_LIST = 'requests-list'
 }
 
+const authRoutes: Array<RouteConfig> = [
+  {
+    path: '',
+    redirect: { name: ROUTE_NAMES.LOGIN }
+  },
+  {
+    path: 'login',
+    name: ROUTE_NAMES.LOGIN,
+    component: () => import('@/pages/LoginPage.vue'),
+    meta: { title: 'Вход в систему' }
+  }
+]
+
+const appRoutes: Array<RouteConfig> = [
+  {
+    path: '',
+    redirect: { name: ROUTE_NAMES.REQUESTS_LIST }
+  },
+  {
+    path: 'requests-list',
+    name: ROUTE_NAMES.REQUESTS_LIST,
+    component: () => import('@/pages/HomePage.vue'),
+    meta: { title: 'Список заявок' }
+  }
+]
+
 const routes: Array<RouteConfig> = [
   {
     path: '/auth',
     component: AuthLayout,
-    children: [
-      {
-        path: '',
-        name: ROUTE_NAMES.LOGIN,
-        component: () => import('@/pages/LoginPage.vue'),
-        meta: {
-          title: 'Вход в систему'
-        }
-      }
-    ]
+    children: authRoutes
   },
   {
     path: '/',
     component: AppLayout,
-    children: [
-      {
-        path: '',
-        redirect: { name: ROUTE_NAMES.REQUESTS_LIST }
-      },
-      {
-        path: 'requests-list',
-        name: ROUTE_NAMES.REQUESTS_LIST,
-        component: () => import('@/pages/HomePage.vue'),
-        meta: {
-          title: 'Список заявок'
-        }
-      }
-    ]
+    children: appRoutes
   },
   {
     path: '*',
@@ -66,7 +70,7 @@ router.beforeEach((to, from, next) => {
   }
 
   if (!to.path.startsWith('/auth') && !isAuthenticated) {
-    next('/auth')
+    next({ name: ROUTE_NAMES.LOGIN })
     return
   }
 

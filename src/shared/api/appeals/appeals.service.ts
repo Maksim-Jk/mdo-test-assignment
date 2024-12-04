@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+
 import { AxiosResponse } from 'axios'
 import { BaseApiService } from '../base-api.service'
 import { AppealItemDto, IAppealsResponse, ICreateAppeal, IUpdateAppeal } from './types'

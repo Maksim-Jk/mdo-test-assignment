@@ -1,13 +1,13 @@
 <template>
   <div id="app">
     <router-view />
-    <BaseNotification />
+    <base-notification />
   </div>
 </template>
 
 <script lang="ts">
+import { BaseNotification } from '@/shared/ui'
 import { defineComponent } from 'vue'
-import BaseNotification from '@/shared/ui/BaseNotification/BaseNotification.vue'
 export default defineComponent({
   name: 'App',
   components: {
@@ -15,13 +15,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-</style>
