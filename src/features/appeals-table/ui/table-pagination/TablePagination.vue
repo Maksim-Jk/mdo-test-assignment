@@ -2,7 +2,7 @@
   <div class="pagination">
     <div class="pagination__controls">
       <span class="pagination__controls-text">
-        <span class="r14b"
+        <span class="r14m"
           >{{
             isNaN((currentPage - 1) * pageSize + 1)
               ? 0
@@ -14,7 +14,7 @@
           }}
         </span>
         из
-        <span class="r14b">{{ totalCount }}</span> записей
+        <span class="r14m">{{ totalCount }}</span> записей
       </span>
       <base-select
         :value="pageSize"

@@ -1,5 +1,5 @@
 <template>
-  <base-select
+  <BaseAutocomplete
     :options="options"
     :value="localValue"
     @change="handleChange"
@@ -15,12 +15,12 @@
 <script lang="ts">
 import { PropType, defineComponent } from 'vue'
 import { DictionaryResponseType, DictionaryTypes } from '../../api'
-import { BaseSelect } from '@/shared/ui'
+import { BaseAutocomplete } from '@/shared/ui'
 
 export default defineComponent({
   name: 'DictionarySelect',
   components: {
-    BaseSelect
+    BaseAutocomplete
   },
   props: {
     name: {
