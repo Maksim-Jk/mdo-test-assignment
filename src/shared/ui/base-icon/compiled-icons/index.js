@@ -1,0 +1,10 @@
+/* eslint-disable */
+require('./arrow-left')
+require('./arrow-up')
+require('./box')
+require('./double-arrow-left')
+require('./eye')
+require('./lock')
+require('./person')
+require('./phone')
+require('./search')

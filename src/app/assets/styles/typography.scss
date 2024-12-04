@@ -1,0 +1,44 @@
+$rb: 'Roboto', sans-serif;
+$in: 'Inter', sans-serif;
+
+@mixin ft($family, $size, $weight) {
+  font-family: $family;
+  font-size: $size + px;
+  font-weight: $weight;
+}
+
+.r {
+  &10r { @include ft($rb, 10, 400); }
+  &12r { @include ft($rb, 12, 400); }
+  &14r { @include ft($rb, 14, 400); }
+  &16r { @include ft($rb, 16, 400); }
+  &20r { @include ft($rb, 20, 400); }
+  
+  &10m { @include ft($rb, 10, 500); }
+  &12m { @include ft($rb, 12, 500); }
+  &14m { @include ft($rb, 14, 500); }
+  &16m { @include ft($rb, 16, 500); }
+  &20m { @include ft($rb, 20, 500); }
+
+  &14b { @include ft($rb, 14, 600); }
+  &16b { @include ft($rb, 16, 600); }
+  &20b { @include ft($rb, 20, 600); }
+}
+
+.i {
+  &10r { @include ft($in, 10, 400); }
+  &12r { @include ft($in, 12, 400); }
+  &14r { @include ft($in, 14, 400); }
+  &16r { @include ft($in, 16, 400); }
+  &20r { @include ft($in, 20, 400); }
+  
+  &10m { @include ft($in, 10, 500); }
+  &12m { @include ft($in, 12, 500); }
+  &14m { @include ft($in, 14, 500); }
+  &16m { @include ft($in, 16, 500); }
+  &20m { @include ft($in, 20, 500); }
+
+  &14b { @include ft($in, 14, 600); }
+  &16b { @include ft($in, 16, 600); }
+  &20b { @include ft($in, 20, 600); }
+}
