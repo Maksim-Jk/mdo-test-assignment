@@ -66,8 +66,15 @@ export default {
   overflow-y: auto;
   padding: 32px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
+    max-width: 90dvw;
+  }
+
+  @media (max-width: 624px) {
+    border-radius: 0;
     max-height: 100dvh;
+    height: 100%;
+    max-width: 100dvw;
   }
 }
 
