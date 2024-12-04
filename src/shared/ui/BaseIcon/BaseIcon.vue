@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType, defineComponent } from 'vue'
+import { PropType, defineComponent } from 'vue'
 import { IconName } from './types'
 
 export default defineComponent({

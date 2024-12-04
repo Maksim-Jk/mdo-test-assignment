@@ -48,7 +48,7 @@ export default defineComponent({
 
 .notification {
   text-align: left;
-  padding: 12px 24px;
+  padding: 12px;
   border-radius: $size-border-radius;
   background-color: $color-surface;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
