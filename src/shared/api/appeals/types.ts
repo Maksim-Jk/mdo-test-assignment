@@ -211,10 +211,21 @@ export interface ICreateAppeal {
     applicant: Applicant
     description: string
     due_date: string
-    status_id: number
+    status_id?: number
 }
 
 export interface IUpdateAppeal extends Omit<ICreateAppeal, 'status_id'> {
     created_at: string
     number: number
+}
+
+export interface IAppeal {
+    premise_id?: string | null
+    apartment_id?: number | null
+    applicant?: Applicant | null
+    description?: string | null
+    due_date?: string | null
+    status_id?: number | null
+    created_at?: string | null
+    number?: number | null
 }

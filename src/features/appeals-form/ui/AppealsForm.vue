@@ -5,7 +5,7 @@
         size="large"
         name="premise"
         placeholder="Дом"
-        :value="modelValue.premise_id"
+        :value="modelValue.premise_id ?? ''"
         @change="handlePremiseChange"
         :disabled="disabled"
       />
@@ -13,16 +13,16 @@
         size="large"
         name="apartment"
         placeholder="Квартира"
-        :value="modelValue.apartment_id"
+        :value="modelValue.apartment_id ?? ''"
         dependency-key="premise_id"
-        :dependency-value="modelValue.premise_id"
+        :dependency-value="modelValue.premise_id ?? ''"
         @change="handleApartmentChange"
         :disabled="disabled"
       />
       <BaseInput
         size="large"
         placeholder="Срок"
-        :value="modelValue.due_date"
+        :value="modelValue.due_date ?? ''"
         @input="$emit('update:modelValue', { ...modelValue, due_date: $event })"
         :disabled="disabled"
       />
@@ -31,28 +31,28 @@
       <BaseInput
         size="large"
         placeholder="Фамилия"
-        :value="modelValue.applicant.last_name"
+        :value="modelValue.applicant?.last_name ?? ''"
         @input="$emit('update:modelValue', { ...modelValue, applicant: { ...modelValue.applicant, last_name: $event } })"
         :disabled="disabled"
       />
       <BaseInput
         size="large"
         placeholder="Имя"
-        :value="modelValue.applicant.first_name"
+        :value="modelValue.applicant?.first_name ?? ''"
         @input="$emit('update:modelValue', { ...modelValue, applicant: { ...modelValue.applicant, first_name: $event } })"
         :disabled="disabled"
       />
       <BaseInput
         size="large"
         placeholder="Отчество"
-        :value="modelValue.applicant.patronymic_name"
+        :value="modelValue.applicant?.patronymic_name ?? ''"
         @input="$emit('update:modelValue', { ...modelValue, applicant: { ...modelValue.applicant, patronymic_name: $event } })"
         :disabled="disabled"
       />
       <BaseInput
         size="large"
         placeholder="Телефон"
-        :value="modelValue.applicant.username"
+        :value="modelValue.applicant?.username ?? ''"
         @input="$emit('update:modelValue', { ...modelValue, applicant: { ...modelValue.applicant, username: $event } })"
         :disabled="disabled"
       />
@@ -61,7 +61,7 @@
       <BaseTextarea
         size="large"
         placeholder="Описание заявки"
-        :value="modelValue.description"
+        :value="modelValue.description ?? ''"
         @input="$emit('update:modelValue', { ...modelValue, description: $event })"
         :disabled="disabled"
       />
@@ -88,7 +88,7 @@ import DictionarySelect from '@/features/dictionary-select/ui/DictionarySelect.v
 import BaseInput from '@/shared/ui/BaseInput/BaseInput.vue'
 import BaseTextarea from '@/shared/ui/BaseTextarea/BaseTextarea.vue'
 import BaseButton from '@/shared/ui/BaseButton/BaseButton.vue'
-import { ICreateAppeal } from '@/shared/api/appeals/types'
+import { IAppeal } from '@/shared/api/appeals/types'
 
 export default defineComponent({
   name: 'AppealsForm',
@@ -100,7 +100,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Object as () => ICreateAppeal,
+      type: Object as () => IAppeal,
       required: true
     },
     submitButtonText: {
