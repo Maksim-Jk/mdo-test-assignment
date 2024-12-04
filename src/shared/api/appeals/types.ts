@@ -205,11 +205,16 @@ export interface IAppealsResponse extends IResponseWithPagination {
     results: AppealItemDto[]
 }
 
-export interface IAppeals {
+export interface ICreateAppeal {
     premise_id: string
     apartment_id: number
     applicant: Applicant
     description: string
     due_date: string
-    status: string
+    status_id: number
+}
+
+export interface IUpdateAppeal extends Omit<ICreateAppeal, 'status_id'> {
+    created_at: string
+    number: number
 }

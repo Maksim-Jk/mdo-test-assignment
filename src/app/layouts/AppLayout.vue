@@ -33,7 +33,6 @@ export default Vue.extend({
   display: flex;
   flex-direction: column;
   padding: 0 16px;
-  background-color: $page-background;
 }
 
 .app-header {

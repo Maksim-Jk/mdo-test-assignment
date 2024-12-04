@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
+import { AxiosResponse } from 'axios'
 import { BaseApiService } from '../base-api.service'
-import { AppealItemDto, IAppeals, IAppealsResponse } from './types'
+import { AppealItemDto, IAppealsResponse, ICreateAppeal, IUpdateAppeal } from './types'
 
 type Ordering = 'number' | '-number' | 'created_at' | '-created_at' | 'status' | '-status'
 export interface IAppealsRequestParams {
@@ -26,9 +27,14 @@ export class AppealsService extends BaseApiService {
       return response.data
     }
 
-    public async createAppeals (data: IAppeals): Promise<IAppealsResponse> {
+    public async createAppeal (data: ICreateAppeal): Promise<AxiosResponse<IAppealsResponse>> {
       const response = await this.api.post<IAppealsResponse>('/appeals/v1.0/appeals/', data)
-      return response.data
+      return response
+    }
+
+    public async updateAppeal (id: string, data: IUpdateAppeal): Promise<AxiosResponse<IAppealsResponse>> {
+      const response = await this.api.patch<IAppealsResponse>(`/appeals/v1.0/appeals/${id}/`, data)
+      return response
     }
 
     public async getAppealById (id: number): Promise<AppealItemDto> {

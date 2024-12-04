@@ -1,5 +1,4 @@
 <template>
-  <div>
     <BaseSelect
       :options="options"
     :value="localValue"
@@ -11,7 +10,6 @@
     :disabled="disabled || isDisabled"
     :size="size"
     />
-  </div>
 </template>
 
 <script lang="ts">

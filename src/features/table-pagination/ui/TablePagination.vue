@@ -2,7 +2,7 @@
   <div class="pagination">
     <div class="pagination__controls">
       <span class="pagination__controls-text">
-        <span class="r14b">{{ (currentPage - 1) * pageSize + 1 }}-{{ Math.min(currentPage * pageSize, totalCount) }} </span>
+        <span class="r14b">{{ isNaN((currentPage - 1) * pageSize + 1) ? 0 : (currentPage - 1) * pageSize + 1 }}-{{ isNaN(Math.min(currentPage * pageSize, totalCount)) ? 0 : Math.min(currentPage * pageSize, totalCount) }} </span>
         из
         <span class="r14b">{{ totalCount }}</span> записей
       </span>
@@ -198,7 +198,7 @@ export default Vue.extend({
 .pagination__controls {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: baseline;
   gap: 0.5rem;
 }
 

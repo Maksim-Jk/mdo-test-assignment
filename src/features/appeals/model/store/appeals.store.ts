@@ -40,10 +40,10 @@ export const appealsStore = {
     }
   },
   actions: {
-    async fetchAppeals ({ commit, state }: ActionContext<AppealsState, RootState>, { page = 1, page_size = 10, search = '', premise_id = null, ordering = undefined } = {}) {
+    async fetchAppeals ({ commit, state }: ActionContext<AppealsState, RootState>, { page = 1, page_size = 10, search = '', premise_id = null, ordering = undefined, forceUpdate = false } = {}) {
       const cacheKey = `list-${page}-${page_size}-${search}-${premise_id}-${ordering}`
 
-      if (state.cache[cacheKey]) {
+      if (state.cache[cacheKey] && !forceUpdate) {
         commit('setAppeals', state.cache[cacheKey])
         return
       }

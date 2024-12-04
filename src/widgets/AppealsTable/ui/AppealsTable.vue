@@ -23,9 +23,9 @@
         <tr>
           <td
             :colspan="tableHeaders.length"
-            class="appeals-table-widget__loading"
+            class="appeals-table-widget__state"
           >
-            Загрузка...
+            <BaseLoader :size="24" />
           </td>
         </tr>
       </template>
@@ -33,9 +33,16 @@
         <tr>
           <td
             :colspan="tableHeaders.length"
-            class="appeals-table-widget__error"
+            class="appeals-table-widget__state"
           >
-            Ошибка при загрузке обращений
+            <BaseEmpty title="Ошибка при загрузке обращений" />
+          </td>
+        </tr>
+      </template>
+      <template v-else-if="appeals.results.length === 0">
+        <tr>
+          <td :colspan="tableHeaders.length" class="appeals-table-widget__state">
+            <BaseEmpty title="Обращений не найдено" />
           </td>
         </tr>
       </template>
@@ -80,11 +87,11 @@
     />
 
     <BaseModal :is-open="modal.isModalOpen && modal.modalName === 'create'" title="AppealsCreateModal" name="AppealsCreateModal" @close="closeModal">
-      <AppealsCreateModal @close="closeModal" />
+      <AppealsCreateModal @close="closeModal" @created="createAppeal" />
     </BaseModal>
 
     <BaseModal :is-open="modal.isModalOpen && modal.modalName === 'edit'" title="AppealsEditModal" name="AppealsEditModal" @close="closeModal">
-      <AppealsEditModal :appeals-id="modal.appealId" @close="closeModal" />
+      <AppealsEditModal :appeals-id="modal.appealId" @close="closeModal" @updated="updateAppeal" />
     </BaseModal>
   </div>
 </template>
@@ -101,6 +108,8 @@ import BaseButton from '@/shared/ui/BaseButton/BaseButton.vue'
 import AppealsEditModal from '@/widgets/appeals-edit-modal/ui/AppealsEditModal.vue'
 import AppealsCreateModal from '@/widgets/appeals-create-modal/ui/AppealsCreateModal.vue'
 import BaseModal from '@/shared/ui/BaseModal/BaseModal.vue'
+import BaseLoader from '@/shared/ui/BaseLoader/BaseLoader.vue'
+import BaseEmpty from '@/shared/ui/base-empty/BaseEmpty.vue'
 
 export default Vue.extend({
   name: 'AppealsTable',
@@ -112,7 +121,9 @@ export default Vue.extend({
     BaseButton,
     AppealsCreateModal,
     AppealsEditModal,
-    BaseModal
+    BaseModal,
+    BaseEmpty,
+    BaseLoader
   },
   data () {
     return {
@@ -219,7 +230,7 @@ export default Vue.extend({
 
       return parts.length ? parts.join(', ') : 'Адрес не указан'
     },
-    async fetchAppeals () {
+    async fetchAppeals ({ forceUpdate = false }: { forceUpdate?: boolean } = {}) {
       const ordering =
         this.sortOrder === 'asc' ? this.sortField : `-${this.sortField}`
       await this.$store.dispatch('appeals/fetchAppeals', {
@@ -227,7 +238,8 @@ export default Vue.extend({
         page_size: this.pageSize,
         ordering: ordering,
         search: this.search,
-        premise_id: this.premise_id
+        premise_id: this.premise_id,
+        forceUpdate
       })
     },
     handlePageChange (page: number) {
@@ -262,89 +274,78 @@ export default Vue.extend({
     },
     closeModal () {
       this.modal.isModalOpen = false
+    },
+    createAppeal () {
+      this.closeModal()
+      this.fetchAppeals({ forceUpdate: true })
+    },
+    updateAppeal () {
+      this.closeModal()
+      this.fetchAppeals({ forceUpdate: true })
     }
   }
 })
 </script>
 
 <style scoped lang="scss">
-.appeals-table-widget__header {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  margin-bottom: 32px;
-}
+.appeals-table-widget {
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-bottom: 32px;
+  }
 
-.appeals-table-widget__controls {
-  display: flex;
-  justify-content: flex-end;
-}
+  &__controls {
+    display: flex;
+    justify-content: flex-end;
+  }
 
-.appeals-table-widget__filters {
-  display: flex;
-  gap: 16px;
+  &__filters {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__number { width: 100px; }
+  &__created-at { width: 150px; }
+  &__address { width: 200px; }
+  &__applicant { width: 200px; }
+  &__description { width: 260px; }
+
+  &__due-date {
+    width: 150px;
+    white-space: nowrap;
+  }
+
+  &__status { width: 150px; }
+
+  &__state {
+    text-align: center;
+    padding: 2rem !important;
+  }
 }
 
 .appeals-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1rem;
-}
 
-.appeals-table th,
-.appeals-table td {
-  padding: 15px 8px;
-  text-align: left;
-  border: none;
-  border-bottom: 1px solid #ddd;
-}
+  th,
+  td {
+    padding: 15px 8px;
+    text-align: left;
+    border: none;
+    border-bottom: 1px solid #ddd;
+  }
 
-.appeals-table th {
-  color: $color-accent;
-  @extend .r14r;
-}
+  th {
+    color: $color-accent;
+    @extend .r14r;
+  }
 
-.appeals-table td {
-  vertical-align: middle;
-  @extend .i14r;
-}
-
-.appeals-table-widget__number {
-  width: 100px;
-}
-
-.appeals-table-widget__created-at {
-  width: 150px;
-}
-
-.appeals-table-widget__address {
-  width: 200px;
-}
-
-.appeals-table-widget__applicant {
-  width: 200px;
-}
-
-.appeals-table-widget__description {
-  width: 260px;
-}
-
-.appeals-table-widget__due-date {
-  width: 150px;
-  white-space: nowrap;
-}
-
-.appeals-table-widget__status {
-  width: 150px;
-}
-
-.appeals-table-widget__loading,
-.appeals-table-widget__error {
-  text-align: center;
-  padding: 2rem !important;
-}
-
-.appeals-table-widget__error {
-  color: red;
+  td {
+    vertical-align: middle;
+    @extend .i14r;
+  }
 }
 </style>

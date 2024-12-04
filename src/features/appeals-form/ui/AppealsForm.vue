@@ -88,7 +88,7 @@ import DictionarySelect from '@/features/dictionary-select/ui/DictionarySelect.v
 import BaseInput from '@/shared/ui/BaseInput/BaseInput.vue'
 import BaseTextarea from '@/shared/ui/BaseTextarea/BaseTextarea.vue'
 import BaseButton from '@/shared/ui/BaseButton/BaseButton.vue'
-import { IAppeals } from '@/shared/api/appeals/types'
+import { ICreateAppeal } from '@/shared/api/appeals/types'
 
 export default Vue.extend({
   name: 'AppealsForm',
@@ -100,7 +100,7 @@ export default Vue.extend({
   },
   props: {
     modelValue: {
-      type: Object as () => IAppeals,
+      type: Object as () => ICreateAppeal,
       required: true
     },
     submitButtonText: {

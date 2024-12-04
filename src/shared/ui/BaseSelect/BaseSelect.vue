@@ -1,12 +1,60 @@
+<template>
+  <div class="base-select">
+    <div class="base-select__container">
+      <BaseInput
+        :value="displayValue"
+        :placeholder="placeholder"
+        :size="size"
+        :disabled="disabled"
+        @input="handleInput"
+        @blur="handleBlur"
+        @focus="calculateDropdownPosition"
+      >
+        <template #suffix>
+          <div :class="['base-select__select-arrow', { 'is-open': isOpen }]" v-if="!loading" />
+          <BaseLoader v-if="loading" :size="12" />
+        </template>
+      </BaseInput>
+
+      <div
+        v-if="isOpen"
+        :class="[
+          'base-select__options-container',
+          `dropdown-${dropdownPlacement}`
+        ]"
+      >
+        <template v-if="filteredOptions.length > 0">
+          <div
+            v-for="option in filteredOptions"
+            :key="option.value"
+            class="base-select__option"
+            @mousedown="handleSelect(option)"
+          >
+            {{ option.label }}
+          </div>
+        </template>
+        <div class="base-select__states">
+          <BaseLoader v-if="loading" />
+          <BaseEmpty v-else-if="filteredOptions.length === 0" />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { IBaseSelectOption } from './baseSelect.types'
 import BaseInput from '../BaseInput/BaseInput.vue'
+import BaseLoader from '../BaseLoader/BaseLoader.vue'
+import BaseEmpty from '../base-empty/BaseEmpty.vue'
 
 export default defineComponent({
   name: 'BaseSelect',
   components: {
-    BaseInput
+    BaseInput,
+    BaseLoader,
+    BaseEmpty
   },
   props: {
     value: {
@@ -150,153 +198,87 @@ export default defineComponent({
 })
 </script>
 
-<template>
-  <div class="select-wrapper">
-    <div class="select-container">
-      <BaseInput
-        :value="displayValue"
-        :placeholder="placeholder"
-        :size="size"
-        :disabled="disabled"
-        @input="handleInput"
-        @blur="handleBlur"
-        @focus="calculateDropdownPosition"
-      >
-        <template #suffix>
-          <div :class="['select-arrow', { 'is-open': isOpen }]" v-if="!loading" />
-          <div class="loading-container" v-if="loading">
-            <div class="loading-spinner" />
-          </div>
-        </template>
-      </BaseInput>
-
-      <div
-        v-if="isOpen"
-        :class="[
-          'options-container',
-          `dropdown-${dropdownPlacement}`
-        ]"
-      >
-        <template v-if="loading">
-          <div class="loading-container">
-            <div class="loading-spinner" />
-          </div>
-        </template>
-        <template v-else-if="filteredOptions.length > 0">
-          <div
-            v-for="option in filteredOptions"
-            :key="option.value"
-            class="option"
-            @mousedown="handleSelect(option)"
-          >
-            {{ option.label }}
-          </div>
-        </template>
-        <div v-else class="no-results">
-          Ничего не найдено
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <style scoped lang="scss">
-.select-wrapper {
+.base-select {
   position: relative;
   width: 100%;
-}
 
-.select-container {
-  position: relative;
-}
-
-.select-arrow {
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid $color-text-secondary;
-  transition: transform 0.2s ease;
-
-  &.is-open {
-    transform: rotate(180deg);
-  }
-}
-
-.options-container {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  background: white;
-  border: 1px solid $color-border;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 1000;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-
-  &.dropdown-bottom {
-    top: calc(100% + 4px);
+  &__container {
+    position: relative;
   }
 
-  &.dropdown-top {
-    bottom: calc(100% + 4px);
+  &__select-arrow {
+    width: 0;
+    height: 0;
+    border: {
+      left: 5px solid transparent;
+      right: 5px solid transparent;
+      top: 5px solid $color-text-secondary;
+    }
+    transition: transform 0.2s ease;
+
+    &.is-open {
+      transform: rotate(180deg);
+    }
   }
 
-  // Стили для Firefox
-  scrollbar-width: thin;
-  scrollbar-color: $color-accent $color-background;
+  &__options-container {
+    $scrollbar-width: 6px;
+    $dropdown-offset: 4px;
 
-  // Стили для Chrome/Safari/Edge
-  &::-webkit-scrollbar {
-    width: 6px;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid $color-border;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    &.dropdown-bottom {
+      top: calc(100% + #{$dropdown-offset});
+    }
+
+    &.dropdown-top {
+      bottom: calc(100% + #{$dropdown-offset});
+    }
+
+    // Firefox scrollbar
+    scrollbar-width: thin;
+    scrollbar-color: $color-accent $color-background;
+
+    // Chrome/Safari/Edge scrollbar
+    &::-webkit-scrollbar {
+      width: $scrollbar-width;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: $color-background;
+      border-radius: $scrollbar-width / 2;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $color-accent;
+      border-radius: $scrollbar-width / 2;
+    }
   }
 
-  &::-webkit-scrollbar-track {
-    background: $color-background;
-    border-radius: 3px;
+  &__option {
+    padding: 12px 8px;
+    text-align: left;
+    cursor: pointer;
+    @extend .r14r;
+
+    &:hover {
+      background-color: rgba($color-accent, 0.1);
+    }
   }
 
-  &::-webkit-scrollbar-thumb {
-    background-color: $color-accent;
-    border-radius: 3px;
+  &__states {
+    padding: 16px;
+    text-align: center;
   }
-}
-
-.option {
-  padding: 8px;
-  cursor: pointer;
-  @extend .r14r;
-
-  &:hover {
-    background-color: rgba($color-accent, 0.1);
-  }
-}
-
-.no-results {
-  padding: 8px;
-  text-align: center;
-  color: $color-text-secondary;
-  @extend .r14r;
-}
-
-.loading-spinner {
-  width: 12px;
-  height: 12px;
-  border: 2px solid $color-background;
-  border-top: 2px solid $color-accent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.loading-container {
-  display: flex;
-  justify-content: center;
-  padding: 4px;
 }
 </style>
