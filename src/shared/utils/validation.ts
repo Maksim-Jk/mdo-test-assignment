@@ -1,4 +1,4 @@
-type ValidatableValue = string | number | null | undefined | Record<string, any>
+type ValidatableValue = string | number | null | undefined | object
 
 export const isEmptyValue = (value: ValidatableValue): boolean => {
   if (value === null || value === undefined) return true
@@ -7,10 +7,10 @@ export const isEmptyValue = (value: ValidatableValue): boolean => {
 }
 
 export const validateNestedObject = (obj: Record<string, ValidatableValue>): boolean => {
-  return Object.entries(obj).every(([_, value]) => {
+  return Object.entries(obj).every(([, value]) => {
     // Если значение - вложенный объект
     if (value && typeof value === 'object' && !Array.isArray(value)) {
-      return validateNestedObject(value)
+      return validateNestedObject(value as Record<string, ValidatableValue>)
     }
     // Для примитивных значений
     return !isEmptyValue(value)

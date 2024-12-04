@@ -61,8 +61,8 @@ export default defineComponent({
 
         const payload = {
           ...this.form,
-          premise_id: this.form.premise_id!,
-          apartment_id: this.form.apartment_id!,
+          premise_id: this.form.premise_id ?? '',
+          apartment_id: this.form.apartment_id ?? 0,
           status_id: 1
         }
 

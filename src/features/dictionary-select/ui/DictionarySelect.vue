@@ -65,10 +65,13 @@ export default defineComponent({
   },
   computed: {
     options (): { value: string | number; label: string }[] {
-      return this.items.map((item: Record<string, any>) => ({
-        value: item.id,
-        label: item.address || item.number || item.label || ''
-      }))
+      return this.items.map((item: DictionaryResponseType[DictionaryTypes]) => {
+        const label = 'address' in item ? item.address : 'number' in item ? item.number : ''
+        return ({
+          value: item.id,
+          label: label
+        })
+      })
     },
     isDisabled (): boolean {
       if (!this.dependencyKey) return false

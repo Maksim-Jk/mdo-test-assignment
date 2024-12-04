@@ -134,12 +134,12 @@ export interface StatusLog {
     assigned_at?: string
     delayed_at?: string
     executed_at?: string
-    rated_at: any
+    rated_at: unknown
     completed_at?: string
     refused_at?: string
     rejected_at?: string
     transferred_at?: string
-    viewed_at: any
+    viewed_at: unknown
 }
 
 export interface StatusCount {
@@ -183,18 +183,18 @@ export interface AppealItemDto {
     applicant: Applicant
     performer?: Performer
     performers: Performer2[]
-    priority: any
-    rating: any
+    priority: unknown
+    rating: unknown
     description: string
     created_by?: CreatedBy
     created_by_employee?: CreatedByEmployee
     updated_by_employee: UpdatedByEmployee
-    start_at: any
+    start_at: unknown
     due_date?: string
     created_at: string
-    common_areas: any
+    common_areas: unknown
     updated_at: string
-    attachments: any[]
+    attachments: unknown[]
     status_log: StatusLog
     not_viewed_appeal_changes: boolean
 }

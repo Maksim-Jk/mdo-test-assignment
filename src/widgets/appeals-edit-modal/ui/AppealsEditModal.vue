@@ -76,9 +76,9 @@ export default defineComponent({
 
         const payload = {
           ...this.form,
-          premise_id: this.form.premise_id!,
-          apartment_id: this.form.apartment_id!,
-          number: this.form.number!,
+          premise_id: this.form.premise_id ?? '',
+          apartment_id: this.form.apartment_id ?? 0,
+          number: this.form.number ?? 0,
           due_date: new Date(this.form.due_date).toISOString()
         }
 
