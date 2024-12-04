@@ -7,9 +7,9 @@ import store from '../store'
 Vue.use(VueRouter)
 
 export enum ROUTE_NAMES {
-  DEFAULT_ROUTE = 'requests-list',
+  DEFAULT_ROUTE = 'appeals-list',
   LOGIN = 'login',
-  REQUESTS_LIST = 'requests-list'
+  REQUESTS_LIST = 'appeals-list'
 }
 
 const authRoutes: Array<RouteConfig> = [
@@ -31,7 +31,7 @@ const appRoutes: Array<RouteConfig> = [
     redirect: { name: ROUTE_NAMES.REQUESTS_LIST }
   },
   {
-    path: 'requests-list',
+    path: 'appeals-list',
     name: ROUTE_NAMES.REQUESTS_LIST,
     component: () => import('@/pages/HomePage.vue'),
     meta: { title: 'Список заявок' }
