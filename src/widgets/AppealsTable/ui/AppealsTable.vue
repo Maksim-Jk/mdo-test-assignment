@@ -98,7 +98,7 @@
 
 <script lang="ts">
 /* eslint-disable camelcase */
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import { AppealItemDto, Applicant } from '@/shared/api/appeals/types'
 import TablePagination from '@/features/table-pagination/ui/TablePagination.vue'
 import BaseTable from '@/shared/ui/BaseTable/BaseTable.vue'
@@ -111,7 +111,7 @@ import BaseModal from '@/shared/ui/BaseModal/BaseModal.vue'
 import BaseLoader from '@/shared/ui/BaseLoader/BaseLoader.vue'
 import BaseEmpty from '@/shared/ui/base-empty/BaseEmpty.vue'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'AppealsTable',
   components: {
     TablePagination,

@@ -11,11 +11,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import BaseInput from '@/shared/ui/BaseInput/BaseInput.vue'
 import BaseIcon from '@/shared/ui/BaseIcon/BaseIcon.vue'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'SearchInput',
   components: {
     BaseInput,

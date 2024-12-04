@@ -1,14 +1,18 @@
 <template>
   <div id="app">
     <router-view />
+    <BaseNotification />
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
-  name: 'App'
+import { defineComponent } from 'vue'
+import BaseNotification from '@/shared/ui/BaseNotification/BaseNotification.vue'
+export default defineComponent({
+  name: 'App',
+  components: {
+    BaseNotification
+  }
 })
 </script>
 

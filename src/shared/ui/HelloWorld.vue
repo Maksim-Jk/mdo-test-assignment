@@ -16,12 +16,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import BaseButton from './BaseButton/BaseButton.vue'
 import BaseInput from './BaseInput/BaseInput.vue'
 import BaseSelect from './BaseSelect/BaseSelect.vue'
 import BaseTextarea from './BaseTextarea/BaseTextarea.vue'
-export default Vue.extend({
+
+export default defineComponent({
   name: 'HelloWorld',
   components: {
     BaseButton,

@@ -6,6 +6,12 @@ $color-background: #F5F5F5;
 $color-surface: #FFFFFF;        
 $color-border: #E0E0E0;    
 
+
+// Цвета для уведомлений
+$color-notification-success: $color-accent;
+$color-notification-warning: #FF9800;
+$color-notification-error: #F44336;
+
 // Текстовые 
 $color-text-primary: #333333;
 $color-text-accent: $color-accent;

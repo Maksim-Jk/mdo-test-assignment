@@ -5,9 +5,9 @@
 <script lang="ts">
 import store from '@/app/store'
 import BaseButton from '@/shared/ui/BaseButton/BaseButton.vue'
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'LogoutButton',
   components: {
     BaseButton

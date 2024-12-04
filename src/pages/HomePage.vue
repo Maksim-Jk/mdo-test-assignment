@@ -5,10 +5,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import AppealsTable from '@/widgets/AppealsTable/ui/AppealsTable.vue'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'HomePage',
   components: {
     AppealsTable

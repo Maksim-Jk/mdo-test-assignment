@@ -1,7 +1,7 @@
 <template>
   <div>
     <button @click="openModal">Открыть модальное окно</button>
-    
+
     <Modal :is-open="isModalOpen" @close="closeModal">
       <div class="modal-header">
         <h2>Заголовок модального окна</h2>
@@ -24,18 +24,18 @@ export default {
   components: {
     Modal
   },
-  data() {
+  data () {
     return {
       isModalOpen: false
     }
   },
   methods: {
-    openModal() {
+    openModal () {
       this.isModalOpen = true
     },
-    closeModal() {
+    closeModal () {
       this.isModalOpen = false
     }
   }
 }
-</script> 
+</script>

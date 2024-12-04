@@ -22,9 +22,11 @@ import { AppealsService } from '@/shared/api/appeals/appeals.service'
 import { AppealItemDto } from '@/shared/api/appeals/types'
 import { transformDateFromIso } from '@/shared/utils/dateTransform'
 import { validateNestedObject } from '@/shared/utils/validation'
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import WindowLoader from '@/shared/ui/WindowLoader/WindowLoader.vue'
-export default Vue.extend({
+import { notificationService } from '@/shared/lib/notification/notification.service'
+
+export default defineComponent({
   name: 'AppealsEditModal',
   components: {
     AppealsForm,
@@ -68,7 +70,7 @@ export default Vue.extend({
         const isValid = validateNestedObject(this.form)
 
         if (!isValid) {
-          alert('Заполните все поля')
+          notificationService.error({ message: 'Ошибка!', description: 'Заполните все поля' })
           return
         }
 
@@ -82,6 +84,7 @@ export default Vue.extend({
         const response = await AppealsService.getInstance().updateAppeal(this.appealsId, payload)
         if (response.status === 200) {
           this.$emit('updated')
+          notificationService.success({ message: 'Успешно!', description: 'Заявка успешно обновлена' })
         }
       } catch (error) {
         console.error(error)

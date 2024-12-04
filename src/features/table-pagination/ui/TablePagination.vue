@@ -85,12 +85,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import BaseButton from '@/shared/ui/BaseButton/BaseButton.vue'
 import BaseIcon from '@/shared/ui/BaseIcon/BaseIcon.vue'
 import BaseSelect from '@/shared/ui/BaseSelect/BaseSelect.vue'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'TablePagination',
   components: {
     BaseButton,

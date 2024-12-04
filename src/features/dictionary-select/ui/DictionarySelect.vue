@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import Vue, { PropType, defineComponent } from 'vue'
 import BaseSelect from '@/shared/ui/BaseSelect/BaseSelect.vue'
 
 import {
@@ -21,7 +21,7 @@ import {
   DictionaryTypes
 } from '@/shared/api/dictionaries/dictionaries.service'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'DictionarySelect',
   components: {
     BaseSelect

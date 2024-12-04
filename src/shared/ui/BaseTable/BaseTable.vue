@@ -32,10 +32,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import BaseIcon from '../BaseIcon/BaseIcon.vue'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'BaseTable',
   components: {
     BaseIcon

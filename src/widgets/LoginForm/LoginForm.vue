@@ -12,8 +12,7 @@
         :disabled="isLoading"
         autocomplete="current-password"
       />
-      <div v-if="error" class="login__error">{{ error }}</div>
-      <BaseButton size="medium" type="submit" :loading="isLoading">
+      <BaseButton size="medium" type="submit">
         Войти
       </BaseButton>
     </form>
@@ -28,6 +27,8 @@ import LoginInput from '@/features/login/ui/login-input/LoginInput.vue'
 import PasswordInput from '@/features/password/ui/password-input/PasswordInput.vue'
 import BaseButton from '@/shared/ui/BaseButton/BaseButton.vue'
 import WindowLoader from '@/shared/ui/WindowLoader/WindowLoader.vue'
+import { notificationService } from '@/shared/lib/notification/notification.service'
+import { ROUTE_NAMES } from '@/app/router'
 
 export default defineComponent({
   name: 'LoginForm',
@@ -39,7 +40,6 @@ export default defineComponent({
   },
   data () {
     return {
-      isLoading: false,
       username: '',
       password: ''
     }
@@ -51,18 +51,16 @@ export default defineComponent({
     ...mapActions('auth', ['login']),
     async handleSubmit () {
       try {
-        this.isLoading = true
         await this.login({
           username: this.username.startsWith('+')
             ? this.username.slice(1)
             : this.username,
           password: this.password
         })
-        this.$router.push({ name: 'requests-list' })
+        notificationService.success({ message: 'Успешная авторизация' })
+        this.$router.push({ name: ROUTE_NAMES.REQUESTS_LIST })
       } catch (error) {
         console.error('Ошибка авторизации:', error)
-      } finally {
-        this.isLoading = false
       }
     }
   }

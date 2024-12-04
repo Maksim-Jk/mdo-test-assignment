@@ -83,14 +83,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import DictionarySelect from '@/features/dictionary-select/ui/DictionarySelect.vue'
 import BaseInput from '@/shared/ui/BaseInput/BaseInput.vue'
 import BaseTextarea from '@/shared/ui/BaseTextarea/BaseTextarea.vue'
 import BaseButton from '@/shared/ui/BaseButton/BaseButton.vue'
 import { ICreateAppeal } from '@/shared/api/appeals/types'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'AppealsForm',
   components: {
     DictionarySelect,

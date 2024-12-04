@@ -1,5 +1,6 @@
 import store from '@/app/store'
 import axios, { AxiosInstance } from 'axios'
+import { notificationService } from '../lib/notification/notification.service'
 
 export class BaseApiService {
     protected readonly api: AxiosInstance;
@@ -34,6 +35,11 @@ export class BaseApiService {
           if (error.response?.status === 401) {
             localStorage.removeItem('token')
           }
+          const errorMessage = error.response?.data?.detail || 'Произошла ошибка при выполнении запроса'
+          const errorDescription = error.response?.data?.data?.non_field_errors?.join(',') || ''
+
+          notificationService.error({ message: errorMessage, description: errorDescription })
+
           return Promise.reject(error)
         }
       )

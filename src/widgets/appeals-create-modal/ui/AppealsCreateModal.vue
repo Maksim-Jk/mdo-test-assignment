@@ -20,9 +20,11 @@
 import AppealsForm from '@/features/appeals-form/ui/AppealsForm.vue'
 import { AppealsService } from '@/shared/api/appeals/appeals.service'
 import { validateNestedObject } from '@/shared/utils/validation'
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import WindowLoader from '@/shared/ui/WindowLoader/WindowLoader.vue'
-export default Vue.extend({
+import { notificationService } from '@/shared/lib/notification/notification.service'
+
+export default defineComponent({
   name: 'AppealsCreateModal',
   components: {
     AppealsForm,
@@ -53,7 +55,7 @@ export default Vue.extend({
         const isValid = validateNestedObject(this.form)
 
         if (!isValid) {
-          alert('Заполните все поля')
+          notificationService.error({ message: 'Ошибка!', description: 'Заполните все поля' })
           return
         }
 
@@ -67,6 +69,7 @@ export default Vue.extend({
         const response = await AppealsService.getInstance().createAppeal(payload)
         if (response.status === 201) {
           this.$emit('created')
+          notificationService.success({ message: 'Успешно!', description: 'Заявка успешно создана' })
         }
       } catch (error) {
         console.error(error)

@@ -52,13 +52,13 @@ export default defineComponent({
   &__title {
     font-weight: 500;
     font-size: 16px;
-    color: var(--color-gray-900);
+    color: $color-text-secondary;
     margin-bottom: 8px;
   }
 
   &__description {
     font-size: 14px;
-    color: var(--color-gray-500);
+    color: $color-text-secondary;
     margin-bottom: 16px;
   }
 }
