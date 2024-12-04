@@ -154,6 +154,7 @@ export default defineComponent({
   color: $color-text-secondary;
   transition: all 0.2s ease;
   pointer-events: none;
+  text-align: left;
 
   &.has-value {
     top: -12px;

@@ -90,7 +90,7 @@
       <AppealsCreateModal @close="closeModal" @created="createAppeal" />
     </BaseModal>
 
-    <BaseModal :is-open="modal.isModalOpen && modal.modalName === 'edit'" title="AppealsEditModal" name="AppealsEditModal" @close="closeModal">
+    <BaseModal v-if="modal.appealId" :is-open="modal.isModalOpen && modal.modalName === 'edit'" title="AppealsEditModal" name="AppealsEditModal" @close="closeModal">
       <AppealsEditModal :appeals-id="modal.appealId" @close="closeModal" @updated="updateAppeal" />
     </BaseModal>
   </div>
@@ -130,7 +130,7 @@ export default defineComponent({
       modal: {
         isModalOpen: false,
         modalName: '',
-        appealId: null as number | null
+        appealId: null as string | null
       },
       currentPage: 1,
       pageSize: 10,
@@ -267,7 +267,7 @@ export default defineComponent({
     handlePremiseChange (value: string) {
       this.premise_id = value
     },
-    openModal (name: string, id?: number) {
+    openModal (name: string, id?: string) {
       this.modal.isModalOpen = true
       this.modal.modalName = name
       this.modal.appealId = id || null
@@ -299,6 +299,12 @@ export default defineComponent({
   &__controls {
     display: flex;
     justify-content: flex-end;
+  }
+
+  &__filters {
+    @media (max-width: 624px) {
+      flex-wrap: wrap;
+    }
   }
 
   &__filters {

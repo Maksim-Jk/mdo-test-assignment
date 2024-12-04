@@ -5,7 +5,7 @@
         size="large"
         name="premise"
         placeholder="Дом"
-        :value="modelValue.premise_id ?? ''"
+        :value="modelValue.premise_id"
         @change="handlePremiseChange"
         :disabled="disabled"
       />
@@ -13,9 +13,9 @@
         size="large"
         name="apartment"
         placeholder="Квартира"
-        :value="modelValue.apartment_id ?? ''"
+        :value="modelValue.apartment_id"
         dependency-key="premise_id"
-        :dependency-value="modelValue.premise_id ?? ''"
+        :dependency-value="modelValue.premise_id"
         @change="handleApartmentChange"
         :disabled="disabled"
       />
@@ -30,7 +30,7 @@
       <BaseInput
         size="large"
         placeholder="Фамилия"
-        :value="modelValue.applicant?.last_name ?? ''"
+        :value="modelValue.applicant?.last_name"
         @input="
           $emit('update:modelValue', {
             ...modelValue,
@@ -42,7 +42,7 @@
       <BaseInput
         size="large"
         placeholder="Имя"
-        :value="modelValue.applicant?.first_name ?? ''"
+        :value="modelValue.applicant?.first_name"
         @input="
           $emit('update:modelValue', {
             ...modelValue,
@@ -54,7 +54,7 @@
       <BaseInput
         size="large"
         placeholder="Отчество"
-        :value="modelValue.applicant?.patronymic_name ?? ''"
+        :value="modelValue.applicant?.patronymic_name"
         @input="
           $emit('update:modelValue', {
             ...modelValue,
@@ -66,7 +66,7 @@
       <BaseInput
         size="large"
         placeholder="Телефон"
-        :value="modelValue.applicant?.username ?? ''"
+        :value="modelValue.applicant?.username"
         @input="
           $emit('update:modelValue', {
             ...modelValue,
@@ -80,7 +80,7 @@
       <BaseTextarea
         size="large"
         placeholder="Описание заявки"
-        :value="modelValue.description ?? ''"
+        :value="modelValue.description"
         @input="
           $emit('update:modelValue', { ...modelValue, description: $event })
         "
@@ -173,6 +173,10 @@ export default defineComponent({
     width: 100%;
     display: flex;
     gap: 16px;
+
+    @media (max-width: 624px) {
+      flex-wrap: wrap;
+    }
   }
 
   &__actions {

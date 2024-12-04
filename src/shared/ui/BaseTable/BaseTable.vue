@@ -65,6 +65,10 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.base-table-widget {
+  overflow-x: auto;
+}
+
 .base-table {
   width: 100%;
   border-collapse: collapse;

@@ -27,6 +27,15 @@ export default {
       default: ''
     }
   },
+  watch: {
+    isOpen (newValue) {
+      if (newValue) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = ''
+      }
+    }
+  },
   methods: {
     close () {
       this.$emit('close')
@@ -52,10 +61,14 @@ export default {
 .modal-content {
   background: white;
   border-radius: 8px;
-  max-height: 90vh;
+  max-height: 90dvh;
   max-width: 740px;
   overflow-y: auto;
   padding: 32px;
+
+  @media (max-width: 768px) {
+    max-height: 100dvh;
+  }
 }
 
 .modal-header {

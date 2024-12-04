@@ -220,12 +220,12 @@ export interface IUpdateAppeal extends Omit<ICreateAppeal, 'status_id'> {
 }
 
 export interface IAppeal {
-    premise_id?: string | null
-    apartment_id?: number | null
-    applicant?: Applicant | null
-    description?: string | null
-    due_date?: string | null | Date
-    status_id?: number | null
-    created_at?: string | null
-    number?: number | null
+    premise_id: string | null;
+    apartment_id: number | null;
+    created_at?: string;
+    number?: number | null;
+    status_id?: number;
+    applicant: Applicant
+    description: string
+    due_date: string | Date
 }

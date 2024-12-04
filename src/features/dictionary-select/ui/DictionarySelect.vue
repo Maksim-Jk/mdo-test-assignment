@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType, defineComponent } from 'vue'
+import { PropType, defineComponent } from 'vue'
 import BaseSelect from '@/shared/ui/BaseSelect/BaseSelect.vue'
 
 import {
@@ -40,7 +40,7 @@ export default defineComponent({
       default: null
     },
     dependencyValue: {
-      type: [String, Number],
+      type: [String, Number] as PropType<string | number | null>,
       default: null
     },
     size: {
@@ -48,8 +48,8 @@ export default defineComponent({
       default: 'medium'
     },
     value: {
-      type: [String, Number],
-      default: undefined
+      type: [String, Number] as PropType<string | number | null>,
+      default: null
     },
     disabled: {
       type: Boolean,
@@ -58,7 +58,7 @@ export default defineComponent({
   },
   data () {
     return {
-      localValue: this.value,
+      localValue: this.value ?? undefined,
       items: [] as DictionaryResponseType[DictionaryTypes][],
       isLoading: false
     }

@@ -2,7 +2,17 @@
   <div class="pagination">
     <div class="pagination__controls">
       <span class="pagination__controls-text">
-        <span class="r14b">{{ isNaN((currentPage - 1) * pageSize + 1) ? 0 : (currentPage - 1) * pageSize + 1 }}-{{ isNaN(Math.min(currentPage * pageSize, totalCount)) ? 0 : Math.min(currentPage * pageSize, totalCount) }} </span>
+        <span class="r14b"
+          >{{
+            isNaN((currentPage - 1) * pageSize + 1)
+              ? 0
+              : (currentPage - 1) * pageSize + 1
+          }}-{{
+            isNaN(Math.min(currentPage * pageSize, totalCount))
+              ? 0
+              : Math.min(currentPage * pageSize, totalCount)
+          }}
+        </span>
         из
         <span class="r14b">{{ totalCount }}</span> записей
       </span>
@@ -16,26 +26,28 @@
     </div>
 
     <div class="pagination__navigation">
-      <BaseButton
-        circle
-        size="small"
-        :disabled="currentPage === 1"
-        @click="onPageChange(1)"
-        variant="unselected"
-        class="pagination__button"
-      >
-        <BaseIcon icon="double-arrow-left" />
-      </BaseButton>
-      <BaseButton
-        circle
-        size="small"
-        :disabled="currentPage === 1"
-        @click="onPageChange(currentPage - 1)"
-        variant="unselected"
-        class="pagination__button"
-      >
-        <BaseIcon icon="arrow-left" />
-      </BaseButton>
+      <div class="pagination__navigation-buttons">
+        <BaseButton
+          circle
+          size="small"
+          :disabled="currentPage === 1"
+          @click="onPageChange(1)"
+          variant="unselected"
+          class="pagination__button"
+        >
+          <BaseIcon icon="double-arrow-left" />
+        </BaseButton>
+        <BaseButton
+          circle
+          size="small"
+          :disabled="currentPage === 1"
+          @click="onPageChange(currentPage - 1)"
+          variant="unselected"
+          class="pagination__button"
+        >
+          <BaseIcon icon="arrow-left" />
+        </BaseButton>
+      </div>
 
       <div class="pagination__pages">
         <template v-for="page in visiblePages">
@@ -50,36 +62,37 @@
           >
             {{ page }}
           </BaseButton>
-          <span
-            v-else
-            :key="'dots-' + page"
-            class="pagination__dots"
-          >
+          <span v-else :key="'dots-' + page" class="pagination__dots">
             ...
           </span>
         </template>
       </div>
 
-      <BaseButton
-        circle
-        size="small"
-        :disabled="!hasNextPage"
-        @click="onPageChange(currentPage + 1)"
-        variant="unselected"
-        class="pagination__button"
-      >
-        <BaseIcon icon="arrow-left" style="transform: rotate(180deg)" />
-      </BaseButton>
-      <BaseButton
-        circle
-        size="small"
-        :disabled="currentPage === totalPages"
-        @click="onPageChange(totalPages)"
-        variant="unselected"
-        class="pagination__button"
-      >
-        <BaseIcon icon="double-arrow-left" style="transform: rotate(180deg)" />
-      </BaseButton>
+      <div class="pagination__navigation-buttons">
+        <BaseButton
+          circle
+          size="small"
+          :disabled="!hasNextPage"
+          @click="onPageChange(currentPage + 1)"
+          variant="unselected"
+          class="pagination__button"
+        >
+          <BaseIcon icon="arrow-left" style="transform: rotate(180deg)" />
+        </BaseButton>
+        <BaseButton
+          circle
+          size="small"
+          :disabled="currentPage === totalPages"
+          @click="onPageChange(totalPages)"
+          variant="unselected"
+          class="pagination__button"
+        >
+          <BaseIcon
+            icon="double-arrow-left"
+            style="transform: rotate(180deg)"
+          />
+        </BaseButton>
+      </div>
     </div>
   </div>
 </template>
@@ -146,7 +159,7 @@ export default defineComponent({
         }
       }
 
-      range.forEach(i => {
+      range.forEach((i) => {
         if (l) {
           if (i - l === 2) {
             rangeWithDots.push(l + 1)
@@ -175,10 +188,15 @@ export default defineComponent({
 <style scoped lang="scss">
 .pagination {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 1rem;
   margin-top: 1rem;
   padding: 1rem;
+
+  @media (max-width: 624px) {
+    flex-direction: column;
+  }
 }
 
 .pagination__select {
@@ -200,6 +218,11 @@ export default defineComponent({
   justify-content: center;
   align-items: baseline;
   gap: 0.5rem;
+
+  @media (max-width: 420px) {
+    align-items: center;
+    flex-direction: column;
+  }
 }
 
 .pagination__controls-text {
@@ -211,6 +234,15 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+
+  &-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 420px) {
+    flex-direction: column;
+  }
 }
 
 .pagination__pages {

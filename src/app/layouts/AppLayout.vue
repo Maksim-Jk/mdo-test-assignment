@@ -43,6 +43,7 @@ export default defineComponent({
 }
 
 .app-title {
+  text-align: left;
   color: $color-text-title;
   @extend .r20r;
 }
