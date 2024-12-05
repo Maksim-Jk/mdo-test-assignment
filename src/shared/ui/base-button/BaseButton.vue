@@ -52,6 +52,11 @@ export default defineComponent({
   width: fit-content;
   box-shadow: 0 4px 4px 0 rgba(106, 174, 94, 0.25);
 
+  &:focus {
+    outline: 2px solid rgba($color-accent, 0.5);
+    outline-offset: 2px;
+  }
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;

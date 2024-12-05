@@ -3,7 +3,7 @@
     :options="options"
     :value="localValue"
     @change="handleChange"
-    @search="handleSearch"
+    @search="onSearch"
     :placeholder="placeholder"
     :enable-server-search="true"
     :loading="isLoading"
@@ -16,6 +16,7 @@
 import { PropType, defineComponent } from 'vue'
 import { DictionaryResponseType, DictionaryTypes } from '../../api'
 import { BaseAutocomplete } from '@/shared/ui'
+import { debounce } from '@/shared/utils'
 
 export default defineComponent({
   name: 'DictionarySelect',
@@ -56,8 +57,12 @@ export default defineComponent({
     return {
       localValue: this.value ?? undefined,
       items: [] as DictionaryResponseType[DictionaryTypes][],
-      isLoading: false
+      isLoading: false,
+      debouncedSearch: null as unknown as ReturnType<typeof debounce>
     }
+  },
+  created () {
+    this.debouncedSearch = debounce(this.handleSearch, 300)
   },
   computed: {
     options (): { value: string | number; label: string }[] {
@@ -80,6 +85,10 @@ export default defineComponent({
     handleChange (value: string | number) {
       this.localValue = value
       this.$emit('change', value)
+    },
+
+    onSearch (query: string) {
+      this.debouncedSearch(query)
     },
 
     async handleSearch (query: string) {

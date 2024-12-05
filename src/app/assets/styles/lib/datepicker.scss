@@ -16,6 +16,10 @@ $namesmace: 'mx';
   height: 100%;
   border-radius: 0;
   border-bottom: 1px solid $color-border;
+
+  &:has(.mx-input:focus) {
+    border-color: $color-accent;
+  }
 }
 
 .mx-input{

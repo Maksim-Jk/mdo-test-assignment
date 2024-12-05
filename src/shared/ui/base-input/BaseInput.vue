@@ -84,6 +84,10 @@ export default defineComponent({
   width: 100%;
   border-bottom: 1px solid $color-border;
   margin-top: 6px;
+
+  &:has(.base-input:focus) {
+    border-color: $color-accent;
+  }
 }
 
 .input-container {
@@ -136,10 +140,6 @@ export default defineComponent({
   outline: none;
   transition: all 0.2s ease;
   color: $color-text-primary;
-
-  &:focus {
-    border-color: $color-accent;
-  }
 
   &:disabled {
     background-color: $color-background;
