@@ -2,12 +2,15 @@
     <div class="base-select">
       <div class="base-select__container">
         <div
+          tabindex="0"
           class="base-select__field"
           :class="[
             `base-select__field--${size}`,
             { 'base-select__field--disabled': disabled }
           ]"
           @click="!disabled && toggleDropdown()"
+          @keydown.enter.prevent="!disabled && toggleDropdown()"
+          ref="selectField"
         >
           <span :class="['base-select__value', { 'is-placeholder': !selectedOption }]">
             {{ selectedOption?.label || placeholder }}
@@ -152,6 +155,11 @@ export default defineComponent({
       border-bottom: 1px solid $color-border;
       cursor: pointer;
       transition: all 0.2s ease;
+
+      &:focus {
+        border-color: $color-accent;
+        outline: none;
+      }
 
       &:hover:not(&--disabled) {
         border-color: $color-accent;

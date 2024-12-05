@@ -80,6 +80,10 @@ export default defineComponent({
   width: 100%;
   border-bottom: 1px solid $color-border;
   margin-top: 6px;
+
+  &:has(.base-textarea:focus) {
+    border-color: $color-accent;
+  }
 }
 
 .textarea-container {
@@ -133,10 +137,6 @@ export default defineComponent({
   transition: all 0.2s ease;
   color: $color-text-primary;
   border: none;
-
-  &:focus {
-    border-color: $color-accent;
-  }
 
   &:disabled {
     background-color: $color-background;
