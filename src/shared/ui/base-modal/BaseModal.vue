@@ -1,18 +1,26 @@
 <template>
   <transition name="modal">
     <div v-if="isOpen" class="modal-overlay" @click="$emit('close')" :class="overlayClass">
-      <div class="modal-content" @click.stop :class="contentClass">
-        <div class="modal-body">
-          <slot></slot>
+      <FocusLock :disabled="!isOpen" return-focus>
+        <div class="modal-content" @click.stop :class="contentClass">
+          <div class="modal-body">
+            <slot></slot>
+          </div>
         </div>
-      </div>
+      </FocusLock>
     </div>
   </transition>
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue'
+import FocusLock from 'vue-focus-lock'
+
+export default defineComponent({
   name: 'BaseModal',
+  components: {
+    FocusLock
+  },
   props: {
     isOpen: {
       type: Boolean,
@@ -41,7 +49,7 @@ export default {
       this.$emit('close')
     }
   }
-}
+})
 </script>
 
 <style scoped lang="scss">

@@ -13,6 +13,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { BaseIcon, BaseInput } from '@/shared/ui'
+import { debounce } from '@/shared/utils/debounce'
 
 export default defineComponent({
   name: 'SearchInput',
@@ -23,7 +24,7 @@ export default defineComponent({
   data () {
     return {
       search: '',
-      timeoutId: null as number | null
+      debouncedEmit: null as unknown as (value: string) => void
     }
   },
   props: {
@@ -32,15 +33,15 @@ export default defineComponent({
       default: 300
     }
   },
+  created () {
+    this.debouncedEmit = debounce((value: string) => {
+      this.$emit('input', value)
+    }, this.debounceTimeout)
+  },
   methods: {
     handleInput (value: string) {
       this.search = value
-      if (this.timeoutId) {
-        clearTimeout(this.timeoutId)
-      }
-      this.timeoutId = window.setTimeout(() => {
-        this.$emit('input', value)
-      }, this.debounceTimeout)
+      this.debouncedEmit(value)
     }
   }
 })
